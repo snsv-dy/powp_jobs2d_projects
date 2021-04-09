@@ -9,38 +9,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroProxyDriver implements Job2dDriver {
-    private Boolean status;
+    private static Boolean status;
     private Job2dDriver driver;
-    private final List<DriverCommand> commands = new ArrayList<>();
+    private static final List<DriverCommand> commands = new ArrayList<>();
 
     public MacroProxyDriver() {
-        this.status = false;
+        status = false;
     }
     public void setDriver(Job2dDriver driver) {
         this.driver = driver;
     }
-    public void toggleRecord() {
-        status = !status;
+    public static void stopRecording() {
+        status = false;
     }
-    public void clearCommands() {
+    public static void startRecording() {
+        status = true;
         commands.clear();
     }
-    public List<DriverCommand> getCommands() {
+    public static List<DriverCommand> getCommands() {
         return commands;
     }
 
     @Override
-    public void setPosition(int i, int i1) {
-        driver.setPosition(i, i1);
+    public void setPosition(int x, int y) {
+        driver.setPosition(x, y);
         if (status) {
-            commands.add(new SetPositionCommand(i, i1));
+            commands.add(new SetPositionCommand(x, y));
         }
     }
     @Override
-    public void operateTo(int i, int i1) {
-        driver.operateTo(i, i1);
+    public void operateTo(int x, int y) {
+        driver.operateTo(x, y);
         if (status) {
-            commands.add(new OperateToCommand(i, i1));
+            commands.add(new OperateToCommand(x, y));
         }
     }
     @Override

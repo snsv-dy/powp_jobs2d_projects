@@ -44,11 +44,11 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("⬤ | Record commands", new MacroToggleListener(DriverFeature.getDriverManager()));
+		application.addTest("Start recording", new MacroStartListener());
 
-		application.addTest("✖ | Clear recorded", new MacroClearListener(DriverFeature.getDriverManager()));
+		application.addTest("Stop recording", new MacroStopListener());
 
-		application.addTest("▶ | Run recorded", new MacroRecordListener(DriverFeature.getDriverManager()));
+		application.addTest("Load recorded", new MacroLoadListener());
 	}
 
 	/**
