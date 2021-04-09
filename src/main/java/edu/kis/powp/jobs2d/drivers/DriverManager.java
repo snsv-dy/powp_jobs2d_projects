@@ -8,18 +8,18 @@ import edu.kis.powp.jobs2d.Job2dDriver;
  */
 public class DriverManager {
 
-	private final MacroProxyDriver currentDriver = new MacroProxyDriver();
+	private final Job2dDriver currentDriver = new ProxyDriver();
 
 	/**
 	 * @param driver Set the driver as current.
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
-		currentDriver.setDriver(driver);
+		((ProxyDriver)currentDriver).setDriver(driver);
 	}
 	/**
 	 * @return Current driver.
 	 */
-	public synchronized MacroProxyDriver getCurrentDriver() {
+	public synchronized Job2dDriver getCurrentDriver() {
 		return currentDriver;
 	}
 }

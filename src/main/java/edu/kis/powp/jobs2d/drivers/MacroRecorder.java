@@ -8,16 +8,12 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MacroProxyDriver implements Job2dDriver {
+public class MacroRecorder {
     private static Boolean status;
-    private Job2dDriver driver;
     private static final List<DriverCommand> commands = new ArrayList<>();
 
-    public MacroProxyDriver() {
+    public MacroRecorder() {
         status = false;
-    }
-    public void setDriver(Job2dDriver driver) {
-        this.driver = driver;
     }
     public static void stopRecording() {
         status = false;
@@ -27,25 +23,12 @@ public class MacroProxyDriver implements Job2dDriver {
         commands.clear();
     }
     public static List<DriverCommand> getCommands() {
-        return commands;
+        return new ArrayList<DriverCommand>(commands);
     }
 
-    @Override
-    public void setPosition(int x, int y) {
-        driver.setPosition(x, y);
-        if (status) {
-            commands.add(new SetPositionCommand(x, y));
+    public static void addCommand(DriverCommand command){
+        synchronized (commands) {
+            commands.add(command);
         }
-    }
-    @Override
-    public void operateTo(int x, int y) {
-        driver.operateTo(x, y);
-        if (status) {
-            commands.add(new OperateToCommand(x, y));
-        }
-    }
-    @Override
-    public String toString() {
-        return driver.toString();
     }
 }
