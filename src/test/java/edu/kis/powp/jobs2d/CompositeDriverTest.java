@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d;
 
-import edu.kis.powp.jobs2d.drivers.CompositeDrivers;
+import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,33 +11,33 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CompositeDriverTest {
     private Job2dDriver sampleDriver = new SampleDriver();
     private Job2dDriver testDriver = new TestDriver();
-    private CompositeDrivers compositeDrivers = new CompositeDrivers();
+    private CompositeDriver compositeDriver = new CompositeDriver();
     @BeforeEach
     void setUp(){
-        compositeDrivers.add(sampleDriver);
-        compositeDrivers.add(testDriver);
+        compositeDriver.add(sampleDriver);
+        compositeDriver.add(testDriver);
     }
 
     @Test
     void setToTest(){
-        compositeDrivers.setPosition(1, 2);
+        compositeDriver.setPosition(1, 2);
     }
 
     @Test
     void operateToTest(){
-        compositeDrivers.operateTo(1, 10);
+        compositeDriver.operateTo(1, 10);
     }
 
     @Test
     void checkSizeOfChildrenList(){
-        assertEquals(2, compositeDrivers.getChildren().size());
-        compositeDrivers.remove(sampleDriver);
-        assertEquals(1, compositeDrivers.getChildren().size());
+        assertEquals(2, compositeDriver.getChildren().size());
+        compositeDriver.remove(sampleDriver);
+        assertEquals(1, compositeDriver.getChildren().size());
     }
 
     @Test
     void getChildrenTest(){
-        List<Job2dDriver> list = compositeDrivers.getChildren();
+        List<Job2dDriver> list = compositeDriver.getChildren();
         assertTrue((list.contains(sampleDriver) && list.contains(testDriver)));
     }
 

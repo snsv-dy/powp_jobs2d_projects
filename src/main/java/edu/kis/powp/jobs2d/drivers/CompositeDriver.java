@@ -5,11 +5,11 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeDrivers implements Job2dDriver {
+public class CompositeDriver implements Job2dDriver {
 
     private List<Job2dDriver> drivers;
 
-    public CompositeDrivers(){
+    public CompositeDriver(){
         drivers = new ArrayList<>();
     }
 
@@ -33,5 +33,10 @@ public class CompositeDrivers implements Job2dDriver {
 
     public void remove(Job2dDriver children){
         drivers.remove(children);
+    }
+
+    @Override
+    public String toString(){
+        return "Composite driver";
     }
 }
