@@ -28,7 +28,11 @@ public class CompoundCommand implements ICompoundCommand {
 
 	@Override
 	public CompoundCommand clone() {
-		return new CompoundCommand(new ArrayList<>(driverCommands), name);
+		ArrayList<DriverCommand> list = new ArrayList<>();
+		for(DriverCommand d:driverCommands){
+			list.add(d.clone());
+		}
+		return new CompoundCommand(list, name);
 	}
 
 	@Override
