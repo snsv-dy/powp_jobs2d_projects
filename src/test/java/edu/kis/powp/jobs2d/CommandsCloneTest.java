@@ -14,7 +14,7 @@ import java.util.List;
 public class CommandsCloneTest {
 
 	@Test
-	public void testCompoundCommandClone() {
+	public void testCompoundCommandCloneSize() {
 		List<DriverCommand> commands = createCommandList();
 
 		CompoundCommand command = new CompoundCommand(commands, "Compound");
@@ -50,7 +50,7 @@ public class CommandsCloneTest {
 		while(i.hasNext() && i_cloned.hasNext()){
 			DriverCommand dc = i.next();
 			DriverCommand dc_cloned = i_cloned.next();
-			Assert.assertNotEquals("Sklonowane obiekty nie powinny być takie same", dc, dc_cloned);
+			Assert.assertNotSame("Sklonowane obiekty nie powinny być takie same", dc, dc_cloned);
 		}
 
 	}
