@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class CompoundCommand implements ICompoundCommand {
 
@@ -12,6 +13,8 @@ public class CompoundCommand implements ICompoundCommand {
 	private List<DriverCommand> driverCommands;
 
 	public CompoundCommand(List<DriverCommand> driverCommands, String name) {
+		Objects.requireNonNull(driverCommands);
+		Objects.requireNonNull(name);
 		this.driverCommands = driverCommands;
 		this.name = name;
 	}
@@ -29,7 +32,7 @@ public class CompoundCommand implements ICompoundCommand {
 	@Override
 	public CompoundCommand clone() {
 		ArrayList<DriverCommand> list = new ArrayList<>();
-		for(DriverCommand d : driverCommands){
+		for(DriverCommand d : driverCommands) {
 			list.add(d.clone());
 		}
 		return new CompoundCommand(list, name);
@@ -55,6 +58,7 @@ public class CompoundCommand implements ICompoundCommand {
 	}
 
 	public void addCommand(DriverCommand command) {
+		Objects.requireNonNull(name);
 		driverCommands.add(command);
 	}
 }
