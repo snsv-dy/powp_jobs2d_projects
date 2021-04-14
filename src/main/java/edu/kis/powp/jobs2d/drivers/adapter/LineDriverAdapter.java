@@ -60,4 +60,12 @@ public class LineDriverAdapter implements Job2dDriver {
 		return (int) Math.ceil(Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
 
 	}
+
+	public int getHeadDistance() {
+		return headDistance;
+	}
+
+	public int getOpDistance() {
+		return opDistance;
+	}
 }
