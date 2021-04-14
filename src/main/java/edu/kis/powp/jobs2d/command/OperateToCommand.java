@@ -25,6 +25,14 @@ public class OperateToCommand implements DriverCommand {
 		return new OperateToCommand(posX, posY);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		OperateToCommand that = (OperateToCommand) o;
+		return posX == that.posX && posY == that.posY;
+	}
+
 	public int getPosX(){
 		return this.posX;
 	}

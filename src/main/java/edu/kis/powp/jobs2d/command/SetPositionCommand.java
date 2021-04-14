@@ -25,6 +25,14 @@ public class SetPositionCommand implements DriverCommand {
 		return new SetPositionCommand(posX, posY);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		SetPositionCommand that = (SetPositionCommand) o;
+		return posX == that.posX && posY == that.posY;
+	}
+
 	public int getPosX(){
 		return this.posX;
 	}

@@ -29,10 +29,24 @@ public class CompoundCommand implements ICompoundCommand {
 	@Override
 	public CompoundCommand clone() {
 		ArrayList<DriverCommand> list = new ArrayList<>();
-		for(DriverCommand d:driverCommands){
+		for(DriverCommand d : driverCommands){
 			list.add(d.clone());
 		}
 		return new CompoundCommand(list, name);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CompoundCommand that = (CompoundCommand) o;
+		if (!name.equals(that.name) || this.driverCommands.size() != that.driverCommands.size())
+			return false;
+		for(int i=0; i<this.driverCommands.size(); i++) {
+			if(!this.driverCommands.get(i).equals(that.driverCommands.get(i)))
+				return false;
+		}
+		return true;
 	}
 
 	@Override
