@@ -77,6 +77,43 @@ public class CommandsCloneTest {
 		Assert.assertEquals(commandsList, currentCommandsList);
 	}
 
+	@Test
+	public void nestedCompoundCommandCloneEqualityTest() {
+		CompoundCommand commandTop = new CompoundCommand(createCommandsList(), "command");
+		CompoundCommand commandMiddle = new CompoundCommand(createCommandsList(), "command");
+		CompoundCommand commandBottom1 = new CompoundCommand(createCommandsList(), "command");
+		CompoundCommand commandBottom2 = new CompoundCommand(createCommandsList(), "command");
+
+		commandTop.addCommand(commandMiddle);
+		commandMiddle.addCommand(commandBottom1);
+		commandMiddle.addCommand(commandBottom2);
+		CompoundCommand cloneTop = commandTop.clone();
+
+		Assert.assertNotSame(commandTop, cloneTop);
+		Assert.assertEquals(commandTop, cloneTop);
+	}
+
+	@Test
+	public void nestedCompoundCommandCloneNotInterfereTest() {
+		CompoundCommand commandTop = new CompoundCommand(new ArrayList<>(), "command");
+		CompoundCommand commandMiddle = new CompoundCommand(new ArrayList<>(), "command");
+		CompoundCommand commandBottom = new CompoundCommand(new ArrayList<>(), "command");
+		OperateToCommand operateCommand = new OperateToCommand(1, 2);
+
+		commandTop.addCommand(commandMiddle);
+		commandMiddle.addCommand(commandBottom);
+		commandBottom.addCommand(operateCommand);
+		CompoundCommand cloneTop = commandTop.clone();
+
+		operateCommand.setPosX(3);
+
+		// Extract operate command from cloned object to make sure it hasn't changed
+		CompoundCommand cloneMiddle = (CompoundCommand) cloneTop.iterator().next();
+		CompoundCommand cloneBottom = (CompoundCommand) cloneMiddle.iterator().next();
+		OperateToCommand cloneOperate = (OperateToCommand) cloneBottom.iterator().next();
+		Assert.assertEquals(cloneOperate.getPosX(), 1);
+	}
+
 	private List<DriverCommand> createCommandsList(){
 		List<DriverCommand> commands = new ArrayList<>();
 		commands.add(new SetPositionCommand(1, 2));
