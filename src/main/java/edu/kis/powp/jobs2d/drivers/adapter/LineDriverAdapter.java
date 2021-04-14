@@ -34,7 +34,7 @@ public class LineDriverAdapter implements Job2dDriver {
 	@Override
 	public void setPosition(int x, int y) {
 		headDistance += distanceBetweenPoints(this.startX,this.startY,x,y);
-		LOGGER.info("Head distance: " + headDistance + " units");
+		LOGGER.info("Head distance: " + headDistance + " units" + " " + "Op.distance: " + opDistance + " units");
 		this.startX = x;
 		this.startY = y;
 	}
@@ -46,8 +46,6 @@ public class LineDriverAdapter implements Job2dDriver {
 		this.setPosition(x, y);
 		line.setEndCoordinates(x, y);
 		drawController.drawLine(line);
-
-		LOGGER.info("Op.distance: " + opDistance + " units");
 	}
 
 	@Override
