@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
 
-public class DriverVisitor implements Visitable {
+public class Driver implements Visitable {
     private List<Visitable> elements = new ArrayList<>();
 
     @Override
