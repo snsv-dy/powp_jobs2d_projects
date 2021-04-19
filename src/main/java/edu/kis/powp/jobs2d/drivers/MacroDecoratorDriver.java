@@ -6,7 +6,7 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
 import java.util.List;
 
-public class ProxyDriver implements Job2dDriver{
+public class MacroDecoratorDriver implements Job2dDriver {
     private Job2dDriver driver;
 
     public void setDriver(Job2dDriver driver) {
