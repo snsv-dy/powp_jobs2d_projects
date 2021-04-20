@@ -18,7 +18,6 @@ public class SelectMonitoringDeviceTestFigureOptionListener implements ActionLis
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Job2dDriver driver = driverManager.getCurrentDriver();
-
 		new SetPositionCommand(100, 0)
 				.execute(driver);
 		new OperateToCommand(100, 50)
@@ -35,6 +34,9 @@ public class SelectMonitoringDeviceTestFigureOptionListener implements ActionLis
 			UsageMonitoringDriver usageMonitoringDriver = (UsageMonitoringDriver) driver;
 			if (usageMonitoringDriver.getOpDistance() != 200 || usageMonitoringDriver.getHeadDistance() != 400) {
 				usageMonitoringDriver.getLogger().warning("Usage monitoring test failed!");
+			}
+			else{
+				usageMonitoringDriver.getLogger().info("Usage monitoring test passed!");
 			}
 		}
 
