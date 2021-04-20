@@ -2,9 +2,7 @@ package edu.kis.powp.jobs2d.drivers.adapter;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.ILine;
-
 import java.util.logging.Logger;
-
 import static java.lang.Math.pow;
 
 public class UsageMonitoringDriver extends LineDriverAdapter {
@@ -43,6 +41,6 @@ public class UsageMonitoringDriver extends LineDriverAdapter {
 
 	private int distanceBetweenPoints(int x1, int y1, int x2, int y2) {
 		return (int) Math.ceil(Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
-
 	}
+
 }

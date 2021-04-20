@@ -2,11 +2,8 @@ package edu.kis.powp.legacy.drawer;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
-import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+
 
 public class TestDistanceMonitor {
 	private static final String TEST_ERROR = "Test failed!";
@@ -33,6 +30,6 @@ public class TestDistanceMonitor {
 
 	private static void customAssert(boolean b) {
 		if (!b)
-			System.err.println("\n"+TEST_ERROR+"\n");
+			System.err.println("\n" + TEST_ERROR + "\n");
 	}
 }
