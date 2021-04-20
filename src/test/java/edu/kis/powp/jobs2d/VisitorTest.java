@@ -4,7 +4,7 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.visitor.Driver;
+import edu.kis.powp.jobs2d.visitor.DriverCommandVisitor;
 import edu.kis.powp.jobs2d.visitor.IVisitor;
 import edu.kis.powp.jobs2d.visitor.OperateToVisitable;
 import edu.kis.powp.jobs2d.visitor.SetPositionVisitable;
@@ -43,7 +43,7 @@ public class VisitorTest {
     public static void main(String[] args){
         IVisitor v = new VisitorT();
 
-        Driver d = new Driver();
+        DriverCommandVisitor d = new DriverCommandVisitor();
         for(int i = 0; i < 2; ++i)
             d.addNewVisitable(new OperateToVisitable(i, i));
         
