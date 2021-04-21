@@ -19,12 +19,11 @@ public class DriverFeature {
 	 * Setup jobs2d drivers Plugin and add to application.
 	 * 
 	 * @param application Application context.
-	 * @param driverNameUpdateObserver Observer to be added.
 	 */
-	public static void setupDriverPlugin(Application application, DriverNameUpdateObserver driverNameUpdateObserver) {
+	public static void setupDriverPlugin(Application application) {
 		app = application;
 		app.addComponentMenu(DriverFeature.class, "Drivers");
-		driverManager.getPublisher().addSubscriber(driverNameUpdateObserver);
+		driverManager.getPublisher().addSubscriber(new DriverNameUpdateObserver(app));
 	}
 
 	/**
