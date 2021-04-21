@@ -1,9 +1,5 @@
 package edu.kis.powp.jobs2d;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.visitor.DriverCommandVisitor;
 import edu.kis.powp.jobs2d.visitor.IVisitor;
 import edu.kis.powp.jobs2d.visitor.OperateToVisitable;
