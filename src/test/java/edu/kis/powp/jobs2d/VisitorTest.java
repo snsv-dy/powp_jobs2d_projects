@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.visitor.DriverCommandVisitor;
 import edu.kis.powp.jobs2d.visitor.IVisitor;
 import edu.kis.powp.jobs2d.visitor.OperateToVisitable;
 import edu.kis.powp.jobs2d.visitor.SetPositionVisitable;
-import edu.kis.powp.jobs2d.visitor.Visitor;
+import edu.kis.powp.jobs2d.visitor.VisitorDriverOperation;
 
 /**
  * Visitor interface test.
@@ -16,32 +16,22 @@ import edu.kis.powp.jobs2d.visitor.Visitor;
  * @author Adrian
  */
 
-class VisitorT extends Visitor{
-    @Override
-    public void visit(DriverCommand command, Job2dDriver driver) {
-        if(command instanceof OperateToCommand)
-            System.out.println("Operate to execution");
-        if(command instanceof SetPositionCommand)
-            System.out.println("Set position execution");
-        
-        super.visit(command, driver);
-    }
-}
-
-class EmptyDriver implements Job2dDriver{
+class PrintOperationDriver implements Job2dDriver{
     @Override
     public void setPosition(int x, int y) {
+        System.out.println("setPosition("+x+", "+y+")");
     }
     @Override
     public void operateTo(int x, int y) {
+        System.out.println("operateTo("+x+", "+y+")");
     }
 }
 
 public class VisitorTest {
-    private static Job2dDriver driver = new EmptyDriver();
+    private static Job2dDriver driver = new PrintOperationDriver();
 
     public static void main(String[] args){
-        IVisitor v = new VisitorT();
+        IVisitor visitor = new VisitorDriverOperation(driver);
 
         DriverCommandVisitor d = new DriverCommandVisitor();
         for(int i = 0; i < 2; ++i)
@@ -50,6 +40,6 @@ public class VisitorTest {
         for(int i = 0; i < 2; ++i)
             d.addNewVisitable(new SetPositionVisitable(i, i));
         
-        d.accept(v, driver);
+        d.accept(visitor);
     }
 }
