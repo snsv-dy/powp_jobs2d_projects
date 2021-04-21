@@ -106,6 +106,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+
 				DriverFeature.setupDriverPlugin(app);
 				DriverFeature.addDriverChangeObserver(new DriverChangeObserver(app));
 				setupDrivers(app);
