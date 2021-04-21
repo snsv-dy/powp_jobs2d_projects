@@ -2,6 +2,7 @@ package edu.kis.powp.legacy.drawer;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
+import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 
 
@@ -10,7 +11,8 @@ public class TestDistanceMonitor {
 
 	public static void main(String[] args) {
 		DrawPanelController controller = new DrawPanelController();
-		UsageMonitoringDriver driver = new UsageMonitoringDriver(controller, LineFactory.getBasicLine(), "basic");
+		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(controller, LineFactory.getBasicLine(), "basic");
+		UsageMonitoringDriver driver = new UsageMonitoringDriver(lineDriverAdapter);
 
 		driver.operateTo(0, 10);
 

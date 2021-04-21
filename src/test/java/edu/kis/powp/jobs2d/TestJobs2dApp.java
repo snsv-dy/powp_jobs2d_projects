@@ -50,8 +50,8 @@ public class TestJobs2dApp {
 	private static void setupMonitoringDeviceTests(Application application) {
 		application.addTest("Monitoring device Test", new SelectMonitoringDeviceTestFigureOptionListener(DriverFeature.getDriverManager()));
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
-
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(drawerController, LineFactory.getBasicLine(), "basic");
+		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(lineDriverAdapter);
 		DriverFeature.addDriver("Usage monitoring Simulator", usageMonitoringDriver);
 
 		DriverFeature.updateDriverInfo();

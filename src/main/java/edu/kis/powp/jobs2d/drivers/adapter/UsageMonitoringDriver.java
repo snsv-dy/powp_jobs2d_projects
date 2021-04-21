@@ -2,31 +2,37 @@ package edu.kis.powp.jobs2d.drivers.adapter;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.ILine;
+import edu.kis.powp.jobs2d.Job2dDriver;
+
 import java.util.logging.Logger;
 import static java.lang.Math.pow;
 
-public class UsageMonitoringDriver extends LineDriverAdapter {
+public class UsageMonitoringDriver  implements Job2dDriver {
 
+	private LineDriverAdapter lineDriverAdapter;
 	private static final Logger LOGGER = Logger.getLogger("global");
 	private int headDistance = 0;
 	private int opDistance = 0;
 
 
-	public UsageMonitoringDriver(DrawPanelController drawController, ILine line, String name) {
-		super(drawController, line, name);
+//	public UsageMonitoringDriver(DrawPanelController drawController, ILine line, String name) {
+//		super(drawController, line, name);
+//	}
+	public UsageMonitoringDriver(LineDriverAdapter lineDriverAdapter) {
+		this.lineDriverAdapter = lineDriverAdapter;
 	}
 
-	@Override
 	public void setPosition(int x, int y) {
-		headDistance += distanceBetweenPoints(super.getStartX(), super.getStartY(), x, y);
+		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
 		LOGGER.info("Head distance: " + headDistance + " units" + " " + "Op.distance: " + opDistance + " units");
-		super.setPosition(x, y);
+		lineDriverAdapter.setPosition(x, y);
 	}
 
-	@Override
+
 	public void operateTo(int x, int y) {
-		opDistance += distanceBetweenPoints(super.getStartX(), super.getStartY(), x, y);
-		super.operateTo(x, y);
+		opDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
+		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
+		lineDriverAdapter.operateTo(x, y);
 		LOGGER.info("Op.distance: " + opDistance + " units");
 
 	}
