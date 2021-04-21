@@ -7,7 +7,13 @@ import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import java.util.List;
 
 public class MacroDecoratorDriver implements Job2dDriver {
+
+    public Job2dDriver getDriver() {
+        return driver;
+    }
+
     private Job2dDriver driver;
+
 
     public void setDriver(Job2dDriver driver) {
         this.driver = driver;

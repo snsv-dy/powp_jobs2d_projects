@@ -44,9 +44,9 @@ public class TestJobs2dApp {
 
 		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Start recording", new MacroStartListener());
+		application.addTest("Start recording", new MacroStartListener(DriverFeature.getDriverManager()));
 
-		application.addTest("Stop recording", new MacroStopListener());
+		application.addTest("Stop recording", new MacroStopListener(DriverFeature.getDriverManager()));
 
 		application.addTest("Load recorded", new MacroLoadListener());
 	}

@@ -9,12 +9,10 @@ import edu.kis.powp.jobs2d.LoggerDriver;
  */
 public class DriverManager {
 	private Job2dDriver currentDriver = new LoggerDriver();
-	private MacroDecoratorDriver decoratorDriver = new MacroDecoratorDriver();
 	/**
 	 * @param driver Set the driver as current.
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
-		decoratorDriver.setDriver(driver);
 		currentDriver = driver;
 	}
 
@@ -22,6 +20,6 @@ public class DriverManager {
 	 * @return Current driver.
 	 */
 	public synchronized Job2dDriver getCurrentDriver() {
-		return decoratorDriver;
+		return currentDriver;
 	}
 }
