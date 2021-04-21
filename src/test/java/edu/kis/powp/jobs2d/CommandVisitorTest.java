@@ -6,6 +6,7 @@ import java.util.List;
 import edu.kis.powp.jobs2d.command.ComplexDriverCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
+import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.visitor.ICommandVisitor;
 import edu.kis.powp.jobs2d.visitor.DriverCommandVisitor;
 
@@ -33,8 +34,12 @@ public class CommandVisitorTest {
         ICommandVisitor visitor = new DriverCommandVisitor(driver);
 
         List<DriverCommand> commands = new ArrayList<>();
-        for(int i = 0; i < 3; ++i)
+        for(int i = 0; i < 2; ++i)
             commands.add(new OperateToCommand(i, -i));
+        
+        for(int i = 0; i < 2; ++i)
+            commands.add(new SetPositionCommand(-i, i));
+        
         
         ComplexDriverCommand cdc = new ComplexDriverCommand(commands);
 
