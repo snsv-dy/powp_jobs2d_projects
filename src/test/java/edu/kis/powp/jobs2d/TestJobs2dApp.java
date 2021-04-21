@@ -107,7 +107,7 @@ public class TestJobs2dApp {
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
 
-				DriverFeature.setupDriverPlugin(app, new DriverNameUpdateObserver(app));
+				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
