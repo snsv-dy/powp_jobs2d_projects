@@ -1,18 +1,33 @@
 package edu.kis.powp.jobs2d.visitor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
-public class DriverCommandVisitor implements VisitableDriverCommand {
-    private List<VisitableDriverCommand> elements = new ArrayList<>();
+import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.OperateToCommand;
+import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
-    @Override
-    public void accept(IVisitor visitor) {
-        for(VisitableDriverCommand command : elements)
-            command.accept(visitor);
+public class DriverCommandVisitor implements IVisitor {
+    private Job2dDriver driver;
+
+    public DriverCommandVisitor(Job2dDriver driver) {
+        this.driver = driver;
     }
 
-    public boolean addNewVisitable(VisitableDriverCommand e){
-        return elements.add(e);
+    @Override
+    public void visit(OperateToCommand operation) {
+        operation.execute(driver);
+    }
+
+    @Override
+    public void visit(SetPositionCommand operation) {
+        operation.execute(driver);
+    }
+
+    @Override
+    public void visit(ICompoundCommand commands) {
+        Iterator<DriverCommand> iter = commands.iterator();
+        iter.forEachRemaining(command -> command.accept(this));
     }
 }
