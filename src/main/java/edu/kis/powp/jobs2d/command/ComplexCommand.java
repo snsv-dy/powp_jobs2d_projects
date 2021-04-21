@@ -3,39 +3,44 @@ package edu.kis.powp.jobs2d.command;
 import edu.kis.powp.jobs2d.Job2dDriver;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class ComplexCommand implements DriverCommand {
+public class ComplexCommand implements ICompoundCommand {
 
-    private List<DriverCommand> polecenia;
+    private List<DriverCommand> commandList;
 
 
-    private ComplexCommand(List<DriverCommand> polecenia) {
-        this.polecenia = polecenia;
+    private ComplexCommand(List<DriverCommand> commandList) {
+        this.commandList = commandList;
     }
 
     @Override
     public void execute(Job2dDriver driver) {
 
-        for (DriverCommand i:polecenia)
+        for (DriverCommand i: commandList)
         {
             i.execute(driver);
         }
     }
 
+    @Override
+    public Iterator<DriverCommand> iterator() {
+        return commandList.iterator();
+    }
 
     public static final class Builder {
 
-        private List<DriverCommand> polecenia = new ArrayList<>();
+        private List<DriverCommand> commandList = new ArrayList<>();
 
 
         public Builder add(DriverCommand command) {
-            polecenia.add(command);
+            commandList.add(command);
             return this;
         }
 
         public ComplexCommand build() {
-            ComplexCommand commandBuilded = new ComplexCommand(new ArrayList<>(polecenia));
+            ComplexCommand commandBuilded = new ComplexCommand(new ArrayList<>(commandList));
             return commandBuilded;
         }
 
