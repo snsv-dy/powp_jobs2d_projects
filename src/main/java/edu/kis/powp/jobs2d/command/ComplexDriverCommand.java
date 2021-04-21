@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.visitor.IVisitor;
+import edu.kis.powp.jobs2d.visitor.ICommandVisitor;
 
 public class ComplexDriverCommand implements ICompoundCommand {
     List<DriverCommand> commands;
@@ -19,7 +19,7 @@ public class ComplexDriverCommand implements ICompoundCommand {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
+    public void accept(ICommandVisitor visitor) {
         visitor.visit(this);
     }
 
