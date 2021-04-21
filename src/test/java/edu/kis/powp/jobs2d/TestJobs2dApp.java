@@ -18,7 +18,7 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.observer.DriverChangeObserver;
+import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -107,8 +107,7 @@ public class TestJobs2dApp {
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
 
-				DriverFeature.setupDriverPlugin(app);
-				DriverFeature.addDriverChangeObserver(new DriverChangeObserver(app));
+				DriverFeature.setupDriverPlugin(app, new DriverNameUpdateObserver(app));
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);

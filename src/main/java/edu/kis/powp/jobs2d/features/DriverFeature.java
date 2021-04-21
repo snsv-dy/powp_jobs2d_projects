@@ -4,7 +4,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
-import edu.kis.powp.jobs2d.observer.DriverChangeObserver;
+import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
 
 public class DriverFeature {
 
@@ -19,19 +19,12 @@ public class DriverFeature {
 	 * Setup jobs2d drivers Plugin and add to application.
 	 * 
 	 * @param application Application context.
+	 * @param driverNameUpdateObserver Observer to be added.
 	 */
-	public static void setupDriverPlugin(Application application) {
+	public static void setupDriverPlugin(Application application, DriverNameUpdateObserver driverNameUpdateObserver) {
 		app = application;
 		app.addComponentMenu(DriverFeature.class, "Drivers");
-	}
-
-	/**
-	 * Add observer to driverManager's observable.
-	 *
-	 * @param driverChangeObserver Observer to be added.
-	 */
-	public static void addDriverChangeObserver(DriverChangeObserver driverChangeObserver){
-		driverManager.getPublisher().addSubscriber(driverChangeObserver);
+		driverManager.getPublisher().addSubscriber(driverNameUpdateObserver);
 	}
 
 	/**

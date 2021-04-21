@@ -4,10 +4,10 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Subscriber;
 
-public class DriverChangeObserver implements Subscriber{
+public class DriverNameUpdateObserver implements Subscriber{
     private Application app;
 
-    public DriverChangeObserver(Application app){
+    public DriverNameUpdateObserver(Application app){
         this.app = app;
     }
 
