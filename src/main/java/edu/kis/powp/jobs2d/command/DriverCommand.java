@@ -9,9 +9,9 @@ public interface DriverCommand {
 
 	/**
 	 * Execute command on driver.
-	 * 
+	 *
 	 * @param driver driver.
 	 */
 	public void execute(Job2dDriver driver);
-
+	public DriverCommand clone();
 }
