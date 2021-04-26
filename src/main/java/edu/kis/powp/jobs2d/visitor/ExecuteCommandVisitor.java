@@ -8,10 +8,10 @@ import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
-public class DriverCommandVisitor implements ICommandVisitor {
+public class ExecuteCommandVisitor implements ICommandVisitor {
     private Job2dDriver driver;
 
-    public DriverCommandVisitor(Job2dDriver driver) {
+    public ExecuteCommandVisitor(Job2dDriver driver) {
         this.driver = driver;
     }
 

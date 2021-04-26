@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.visitor.ICommandVisitor;
-import edu.kis.powp.jobs2d.visitor.DriverCommandVisitor;
+import edu.kis.powp.jobs2d.visitor.ExecuteCommandVisitor;
 
 /**
  * Visitor interface test.
@@ -31,7 +31,7 @@ public class CommandVisitorTest {
     private static Job2dDriver driver = new PrintOperationDriver();
 
     public static void main(String[] args){
-        ICommandVisitor visitor = new DriverCommandVisitor(driver);
+        ICommandVisitor visitor = new ExecuteCommandVisitor(driver);
 
         List<DriverCommand> commands = new ArrayList<>();
         for(int i = 0; i < 2; ++i)
