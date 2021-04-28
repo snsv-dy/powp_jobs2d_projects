@@ -1,9 +1,0 @@
-/target/
-/doc/
-/.classpath
-/.project
-.settings
-/.idea
-.iml
-jobs2d.iml
-.gitignore
