@@ -3,6 +3,7 @@ package edu.kis.powp.jobs2d.command.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.json.CommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
@@ -89,6 +91,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
+			try{
+				commandManager.setCurrentCommand(CommandImporter.importCommand(selectedFilePath));
+				updateCurrentCommandField();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
 			System.out.println(selectedFilePath);
 		}
 	}
@@ -113,7 +121,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		observerListField.setText(observerListString);
 	}
-
+	public String getSelectedFilePath() {
+		return selectedFilePath;
+	}
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();
