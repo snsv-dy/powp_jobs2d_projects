@@ -4,7 +4,7 @@ import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.command.json.CommandImporter;
+import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +26,9 @@ public class CommandsImportTest {
 		commands.add(new OperateToCommand(0, 0));
 		CompoundCommand command = new CompoundCommand(commands, "name");
 		try {
-			CommandImporter.saveCommand(FILENAME1, command);
-			CompoundCommand command2 = CommandImporter.importCommand(FILENAME1);
-			CommandImporter.saveCommand(FILENAME2, command2);
+			JsonCommandImporter.saveCommand(FILENAME1, command);
+			CompoundCommand command2 = JsonCommandImporter.importCommand(FILENAME1);
+			JsonCommandImporter.saveCommand(FILENAME2, command2);
 
 			byte[] f1 = Files.readAllBytes(Paths.get(FILENAME1));
 			new File(FILENAME1).delete();
