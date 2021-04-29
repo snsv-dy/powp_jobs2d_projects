@@ -56,6 +56,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+		JButton btnImportCommand = new JButton("Import command");
+		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommand());
+		content.add(btnImportCommand, c);
+
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
 		c.fill = GridBagConstraints.BOTH;
@@ -76,6 +80,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private void clearCommand() {
 		commandManager.clearCurrentCommand();
 		updateCurrentCommandField();
+	}
+
+	private void importCommand() {
+
 	}
 
 	public void updateCurrentCommandField() {
