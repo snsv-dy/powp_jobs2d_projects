@@ -1,14 +1,13 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -22,6 +21,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private String observerListString;
 	private JTextArea observerListField;
+	private File selectedFile;
 
 	/**
 	 * 
@@ -56,6 +56,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+
 		JButton btnImportCommand = new JButton("Import command");
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommand());
 		content.add(btnImportCommand, c);
@@ -83,7 +84,16 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void importCommand() {
-
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Choose Json file");
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Json files", "json");
+		fileChooser.addChoosableFileFilter(filter);
+		int returnValue = fileChooser.showOpenDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileChooser.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+		}
 	}
 
 	public void updateCurrentCommandField() {
