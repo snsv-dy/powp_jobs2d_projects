@@ -5,16 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Driver;
 
-public class CommandImporter {
+public class JsonCommandImporter {
 	private static final Gson gson = new GsonBuilder()
-			.registerTypeAdapter(DriverCommand.class,new CommandSerializer())
+			.registerTypeAdapter(DriverCommand.class,new JsonCommandSerializer())
 			.setPrettyPrinting()
 			.create();
 

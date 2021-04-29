@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 //helpful link
 //https://technology.finra.org/code/serialize-deserialize-interfaces-in-java.html
-public class CommandSerializer implements JsonSerializer, JsonDeserializer {
+public class JsonCommandSerializer implements JsonSerializer, JsonDeserializer {
 	private static final String PROPERTY_CLASSNAME = "ClassName";
 
 	@Override
