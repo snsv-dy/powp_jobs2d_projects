@@ -14,14 +14,11 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
 	private DriverCommandManager commandManager;
-
 	private JTextArea currentCommandField;
-
 	private String observerListString;
 	private JTextArea observerListField;
-	private File selectedFile;
+	private String selectedFilePath;
 
 	/**
 	 * 
@@ -91,8 +88,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		fileChooser.addChoosableFileFilter(filter);
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			selectedFile = fileChooser.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
+			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
+			System.out.println(selectedFilePath);
 		}
 	}
 
