@@ -17,6 +17,9 @@ public class SelectDriverMenuOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		driverManager.setCurrentDriver(driver);
+		MacroDecoratorDriver mDriver = new MacroDecoratorDriver();
+		mDriver.setDriver(driver);
+		driverManager.setCurrentDriver(mDriver);
+		DriverFeature.updateDriverInfo();
 	}
 }
