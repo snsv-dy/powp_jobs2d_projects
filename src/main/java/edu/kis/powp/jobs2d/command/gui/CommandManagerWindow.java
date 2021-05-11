@@ -1,30 +1,30 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.util.List;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.CommandImporter;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.List;
+
 public class CommandManagerWindow extends JFrame implements WindowComponent {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 9204679248304669948L;
 	private DriverCommandManager commandManager;
 	private JTextArea currentCommandField;
 	private String observerListString;
 	private JTextArea observerListField;
 	private String selectedFilePath;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9204679248304669948L;
+	private CommandImporter importer = new JsonCommandImporter();
 
 	public CommandManagerWindow(DriverCommandManager commandManager) {
 		this.setTitle("Command Manager");
@@ -86,6 +86,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private void importCommand() {
 		JFileChooser fileChooser = new JFileChooser();
+
 		fileChooser.setDialogTitle("Choose Json file");
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Json files", "json");
@@ -93,15 +94,16 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		int returnValue = fileChooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
-			try{
-				commandManager.setCurrentCommand(JsonCommandImporter.importCommand(selectedFilePath));
+			try {
+				commandManager.setCurrentCommand(importer.importCommand(selectedFilePath));
 				updateCurrentCommandField();
-			}catch(IOException e){
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			System.out.println(selectedFilePath);
 		}
 	}
+
 	private void exportCommand() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Specify a file to save");
@@ -114,14 +116,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 //		int returnValue = fileChooser.showOpenDialog(null);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
-			try{
-				JsonCommandImporter.saveCommand(selectedFilePath,(CompoundCommand) commandManager.getCurrentCommand());
-			}catch(IOException e){
+			try {
+				importer.saveCommand(selectedFilePath, (CompoundCommand) commandManager.getCurrentCommand());
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			System.out.println(selectedFilePath);
 		}
 	}
+
 	public void updateCurrentCommandField() {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
@@ -142,9 +145,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		observerListField.setText(observerListString);
 	}
+
 	public String getSelectedFilePath() {
 		return selectedFilePath;
 	}
+
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();
