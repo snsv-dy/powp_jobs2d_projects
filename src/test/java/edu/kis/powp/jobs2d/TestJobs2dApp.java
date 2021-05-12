@@ -36,10 +36,12 @@ public class TestJobs2dApp {
 				DriverFeature.getDriverManager());
 
 
+		ComplexCommandFactory comm = new ComplexCommandFactory();
+
 		ActionListener rectangle = new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) {
-				ComplexCommandFactory.drawRectangle(0,0, 50, 25);
+				comm.drawRectangle(0,0, 50, 25).execute(DriverFeature.getDriverManager().getCurrentDriver());
 			}
 		};
 
@@ -47,7 +49,7 @@ public class TestJobs2dApp {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				ComplexCommandFactory.drawTriangle(-50,-50, 50, 50);
+				comm.drawTriangle(-50,-50, 50, 50).execute(DriverFeature.getDriverManager().getCurrentDriver());
 			}
 		};
 
