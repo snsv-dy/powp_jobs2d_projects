@@ -1,7 +1,9 @@
 package edu.kis.powp.jobs2d.command;
 
-public class ComplexCommandFactory {
-    public ComplexCommand drawRectangle(int x, int y, int off1, int off2) {
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
+
+public class ComplexCommandFactory{
+    public ICompoundCommand drawRectangle(int x, int y, int off1, int off2) {
         return new ComplexCommand.Builder()
                 .add(new SetPositionCommand(x, y)).add(new OperateToCommand(x+off1, y))
                 .add(new OperateToCommand(x+off1, y+off2))
@@ -10,7 +12,7 @@ public class ComplexCommandFactory {
                 .build();
     }
 
-    public ComplexCommand drawTriangle(int x, int y, int off1, int off2) {
+    public ICompoundCommand drawTriangle(int x, int y, int off1, int off2) {
         return new ComplexCommand.Builder()
                 .add(new SetPositionCommand(x, y))
                 .add(new OperateToCommand(x, y+off1))
