@@ -14,6 +14,7 @@ public class CommandsImportTest {
 	public static final String FILENAME1 = "testCommand.json";
 	private static final String FILENAME2 = "testCommand2.json";
 	private static final CommandImporter importer = new JsonCommandImporter();
+
 	public static void main(String[] args) {
 		ArrayList<DriverCommand> commands = new ArrayList<DriverCommand>();
 		commands.add(new SetPositionCommand(0, 0));
@@ -23,9 +24,14 @@ public class CommandsImportTest {
 		commands.add(new OperateToCommand(0, 0));
 		CompoundCommand command = new CompoundCommand(commands, "name");
 		try {
-			importer.saveCommand(FILENAME1, command);
-			CompoundCommand command2 = importer.importCommand(FILENAME1);
-			importer.saveCommand(FILENAME2, command2);
+			String textOfCommand = importer.exportCommand(command);
+			JsonCommandImporter.writeFileContent(FILENAME1, textOfCommand);
+
+			String fileContent = JsonCommandImporter.loadFileContent(FILENAME1);
+			CompoundCommand command2 = importer.importCommand(fileContent);
+
+			textOfCommand = importer.exportCommand(command2);
+			JsonCommandImporter.writeFileContent(FILENAME2, textOfCommand);
 
 			byte[] f1 = Files.readAllBytes(Paths.get(FILENAME1));
 			new File(FILENAME1).delete();

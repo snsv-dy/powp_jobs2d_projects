@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public interface CommandImporter   {
 
-	CompoundCommand importCommand(String filepath) throws IOException;
-	void saveCommand(String filepath, CompoundCommand command) throws IOException;
+	CompoundCommand importCommand(String command) throws IOException;
+	String exportCommand(CompoundCommand command) throws IOException;
+
 }

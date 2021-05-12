@@ -95,7 +95,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				commandManager.setCurrentCommand(importer.importCommand(selectedFilePath));
+				String fileContent = JsonCommandImporter.loadFileContent(selectedFilePath);
+				commandManager.setCurrentCommand(importer.importCommand(fileContent));
 				updateCurrentCommandField();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -117,7 +118,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				importer.saveCommand(selectedFilePath, (CompoundCommand) commandManager.getCurrentCommand());
+				String commandText = importer.exportCommand((CompoundCommand) commandManager.getCurrentCommand());
+				JsonCommandImporter.writeFileContent(selectedFilePath,commandText);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
