@@ -22,7 +22,7 @@ public class JsonCommandImporter implements CommandImporter {
 	public CompoundCommand importCommand(String command) {
 		return gson.fromJson(command, CompoundCommand.class);
 	}
-
+	@Override
 	public String exportCommand(CompoundCommand command) {
 		return gson.toJson(command);
 	}
