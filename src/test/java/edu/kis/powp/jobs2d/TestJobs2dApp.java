@@ -75,7 +75,6 @@ public class TestJobs2dApp {
 		compositeDriver.add(loggerDriver);
 		compositeDriver.add(driver);
 		DriverFeature.addDriver("Composite Driver", compositeDriver);
-		DriverFeature.updateDriverInfo();
 	}
 
 	private static void setupWindows(Application application) {
