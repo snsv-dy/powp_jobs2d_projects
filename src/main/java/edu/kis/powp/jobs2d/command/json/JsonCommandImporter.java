@@ -27,13 +27,5 @@ public class JsonCommandImporter implements CommandImporter {
 		return gson.toJson(command);
 	}
 
-	public static String loadFileContent(String filepath) throws IOException {
-		return new Scanner(new File(filepath)).useDelimiter("\\Z").next();
-	}
 
-	public static void writeFileContent(String filepath, String content) throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
-		writer.write(content);
-		writer.close();
-	}
 }

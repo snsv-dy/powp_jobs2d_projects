@@ -1,5 +1,5 @@
 {
-  "name": "name",
+  "name": "testCommand",
   "driverCommands": [
     {
       "ClassName": "edu.kis.powp.jobs2d.command.SetPositionCommand",

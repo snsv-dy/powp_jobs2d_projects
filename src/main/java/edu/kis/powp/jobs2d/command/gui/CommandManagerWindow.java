@@ -3,6 +3,7 @@ package edu.kis.powp.jobs2d.command.gui;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.CommandImporter;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
+import edu.kis.powp.jobs2d.command.FileOpertor;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
@@ -95,7 +96,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				String fileContent = JsonCommandImporter.loadFileContent(selectedFilePath);
+				String fileContent = FileOpertor.loadFileContent(selectedFilePath);
 				commandManager.setCurrentCommand(importer.importCommand(fileContent));
 				updateCurrentCommandField();
 			} catch (IOException e) {
@@ -119,7 +120,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
 				String commandText = importer.exportCommand((CompoundCommand) commandManager.getCurrentCommand());
-				JsonCommandImporter.writeFileContent(selectedFilePath,commandText);
+				FileOpertor.writeFileContent(selectedFilePath,commandText);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

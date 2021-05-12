@@ -25,13 +25,13 @@ public class CommandsImportTest {
 		CompoundCommand command = new CompoundCommand(commands, "name");
 		try {
 			String textOfCommand = importer.exportCommand(command);
-			JsonCommandImporter.writeFileContent(FILENAME1, textOfCommand);
+			FileOpertor.writeFileContent(FILENAME1, textOfCommand);
 
-			String fileContent = JsonCommandImporter.loadFileContent(FILENAME1);
+			String fileContent = FileOpertor.loadFileContent(FILENAME1);
 			CompoundCommand command2 = importer.importCommand(fileContent);
 
 			textOfCommand = importer.exportCommand(command2);
-			JsonCommandImporter.writeFileContent(FILENAME2, textOfCommand);
+			FileOpertor.writeFileContent(FILENAME2, textOfCommand);
 
 			byte[] f1 = Files.readAllBytes(Paths.get(FILENAME1));
 			new File(FILENAME1).delete();
