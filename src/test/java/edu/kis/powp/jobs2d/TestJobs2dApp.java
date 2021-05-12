@@ -10,8 +10,8 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -44,8 +44,13 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
+		application.addTest("Start recording", new MacroStartListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Stop recording", new MacroStopListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Load recorded", new MacroLoadListener());
 	}
 
 	/**
@@ -64,6 +69,12 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+
+		CompositeDriver compositeDriver = new CompositeDriver();
+		compositeDriver.add(loggerDriver);
+		compositeDriver.add(driver);
+		DriverFeature.addDriver("Composite Driver", compositeDriver);
 	}
 
 	private static void setupWindows(Application application) {
@@ -107,11 +118,11 @@ public class TestJobs2dApp {
 
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
-
 				setupPresetTests(app);
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
+
 				app.setVisibility(true);
 			}
 		});
