@@ -27,8 +27,8 @@ public class CompositeDriver implements Job2dDriver {
         drivers.add(driver);
     }
 
-    public List getChildren(){
-        return drivers.toArray(new Job2dDriver[drivers.size()]) };
+    public Job2dDriver[] getChildren(){
+        return drivers.toArray(new Job2dDriver[drivers.size()]);
     }
 
     public void remove(Job2dDriver children){
