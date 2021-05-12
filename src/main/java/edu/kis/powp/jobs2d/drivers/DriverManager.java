@@ -9,7 +9,6 @@ import edu.kis.powp.observer.Publisher;
  * components and features of the application to react on configuration changes.
  */
 public class DriverManager {
-
 	private Job2dDriver currentDriver = new LoggerDriver();
 	private static Publisher publisher = new Publisher();
 

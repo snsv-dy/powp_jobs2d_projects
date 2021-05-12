@@ -10,11 +10,9 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -46,8 +44,13 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 
+		application.addTest("Start recording", new MacroStartListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Stop recording", new MacroStopListener(DriverFeature.getDriverManager()));
+
+		application.addTest("Load recorded", new MacroLoadListener());
 	}
 
 	/**
@@ -66,6 +69,13 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+
+		CompositeDriver compositeDriver = new CompositeDriver();
+		compositeDriver.add(loggerDriver);
+		compositeDriver.add(driver);
+		DriverFeature.addDriver("Composite Driver", compositeDriver);
+		DriverFeature.updateDriverInfo();
 	}
 
 	private static void setupWindows(Application application) {
