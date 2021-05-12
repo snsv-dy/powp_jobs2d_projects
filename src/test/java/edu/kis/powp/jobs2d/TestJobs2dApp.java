@@ -13,10 +13,7 @@ import edu.kis.powp.jobs2d.command.ComplexCommandFactory;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -30,35 +27,21 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
-		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(
-				DriverFeature.getDriverManager());
-		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(
-				DriverFeature.getDriverManager());
 
 
-		ComplexCommandFactory comm = new ComplexCommandFactory();
 
-		ActionListener rectangle = new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e) {
-				comm.drawRectangle(0,0, 50, 25).execute(DriverFeature.getDriverManager().getCurrentDriver());
-			}
-		};
+		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(DriverFeature.getDriverManager());
+		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(DriverFeature.getDriverManager());
 
-		ActionListener triangle = new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				comm.drawTriangle(-50,-50, 50, 50).execute(DriverFeature.getDriverManager().getCurrentDriver());
-			}
-		};
+		RectangleListener rectangleListener = new RectangleListener(DriverFeature.getDriverManager());
+		TriangleListener triangleListener = new TriangleListener(DriverFeature.getDriverManager());
 
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
 		application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
 
-		application.addTest("Rectangle", rectangle);
-		application.addTest("Triangle", triangle);
+		application.addTest("Rectangle", rectangleListener);
+		application.addTest("Triangle", triangleListener);
 
 	}
 
