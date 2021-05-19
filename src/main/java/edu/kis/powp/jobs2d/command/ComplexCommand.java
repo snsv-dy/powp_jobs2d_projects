@@ -16,6 +16,15 @@ public class ComplexCommand implements ICompoundCommand {
     }
 
     @Override
+    public ComplexCommand clone() {
+        ArrayList<DriverCommand> list = new ArrayList<>();
+        for(DriverCommand d : commandList) {
+            list.add(d.clone());
+        }
+        return new ComplexCommand(list);
+    }
+
+    @Override
     public void execute(Job2dDriver driver) {
 
         for (DriverCommand i: commandList)
