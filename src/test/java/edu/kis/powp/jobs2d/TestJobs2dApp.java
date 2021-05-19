@@ -18,6 +18,7 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
 
 public class TestJobs2dApp {
@@ -29,14 +30,13 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
+		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
 
+		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(driverFeature.getDriverManager());
+		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(driverFeature.getDriverManager());
 
-
-		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(DriverFeature.getDriverManager());
-		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(DriverFeature.getDriverManager());
-
-		RectangleListener rectangleListener = new RectangleListener(DriverFeature.getDriverManager());
-		TriangleListener triangleListener = new TriangleListener(DriverFeature.getDriverManager());
+		RectangleListener rectangleListener = new RectangleListener(driverFeature.getDriverManager());
+		TriangleListener triangleListener = new TriangleListener(driverFeature.getDriverManager());
 
 
 		application.addTest("Figure Joe 1", selectTestFigureOptionListener);
@@ -53,13 +53,15 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
+		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
+
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
-		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
 
-		application.addTest("Start recording", new MacroStartListener(DriverFeature.getDriverManager()));
+		application.addTest("Start recording", new MacroStartListener(driverFeature.getDriverManager()));
 
-		application.addTest("Stop recording", new MacroStopListener(DriverFeature.getDriverManager()));
+		application.addTest("Stop recording", new MacroStopListener(driverFeature.getDriverManager()));
 
 		application.addTest("Load recorded", new MacroLoadListener());
 	}
@@ -70,32 +72,36 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
-		Job2dDriver loggerDriver = new LoggerDriver();
-		DriverFeature.addDriver("Logger driver", loggerDriver);
+		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
+		DrawerFeature drawerFeature = (DrawerFeature) FeatureManager.getFeature(DrawerFeature.class);
 
-		DrawPanelController drawerController = DrawerFeature.getDrawerController();
+		Job2dDriver loggerDriver = new LoggerDriver();
+		driverFeature.addDriver("Logger driver", loggerDriver);
+
+		DrawPanelController drawerController = drawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		DriverFeature.addDriver("Line Simulator", driver);
-		DriverFeature.getDriverManager().setCurrentDriver(driver);
+		driverFeature.addDriver("Line Simulator", driver);
+		driverFeature.getDriverManager().setCurrentDriver(driver);
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
-		DriverFeature.addDriver("Special line Simulator", driver);
+		driverFeature.addDriver("Special line Simulator", driver);
 
 
 		CompositeDriver compositeDriver = new CompositeDriver();
 		compositeDriver.add(loggerDriver);
 		compositeDriver.add(driver);
-		DriverFeature.addDriver("Composite Driver", compositeDriver);
+		driverFeature.addDriver("Composite Driver", compositeDriver);
 	}
 
 	private static void setupWindows(Application application) {
+		CommandsFeature commandsFeature = (CommandsFeature) FeatureManager.getFeature(CommandsFeature.class);
 
-		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
+		CommandManagerWindow commandManager = new CommandManagerWindow(commandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
-		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
 
 	/**
@@ -124,10 +130,9 @@ public class TestJobs2dApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
-				DrawerFeature.setupDrawerPlugin(app);
-				CommandsFeature.setupCommandManager();
+				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
+				FeatureManager.setup(app);
 
-				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
