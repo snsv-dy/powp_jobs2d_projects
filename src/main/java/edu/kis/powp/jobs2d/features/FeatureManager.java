@@ -20,12 +20,12 @@ public class FeatureManager {
 		}
 	}
 
-	public static Feature getFeature(Class type){
+	public static <T extends Feature> T getFeature(Class type){
 		if(!featureMap.containsKey(type)){
 			throw new RuntimeException("No such feature");
 		}
 
-		return featureMap.get(type);
+		return (T) featureMap.get(type);
 	}
 
 	public static void setup(Application application){

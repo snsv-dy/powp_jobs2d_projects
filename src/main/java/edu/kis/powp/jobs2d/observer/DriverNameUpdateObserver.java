@@ -14,7 +14,7 @@ public class DriverNameUpdateObserver implements Subscriber{
 
     @Override
     public void update() {
-        DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
+        DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
         app.updateInfo(driverFeature.getDriverManager().getCurrentDriver().toString());
     }
 }

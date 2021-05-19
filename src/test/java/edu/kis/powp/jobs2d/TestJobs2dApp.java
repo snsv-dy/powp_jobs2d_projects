@@ -30,7 +30,7 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
-		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 
 		SelectTestFigureOptionListener selectTestFigureOptionListener = new SelectTestFigureOptionListener(driverFeature.getDriverManager());
 		SelectTestFigure2OptionListener selectTestFigure2OptionListener = new SelectTestFigure2OptionListener(driverFeature.getDriverManager());
@@ -53,7 +53,7 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
-		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 
@@ -72,8 +72,8 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
-		DriverFeature driverFeature = (DriverFeature) FeatureManager.getFeature(DriverFeature.class);
-		DrawerFeature drawerFeature = (DrawerFeature) FeatureManager.getFeature(DrawerFeature.class);
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		driverFeature.addDriver("Logger driver", loggerDriver);
@@ -94,7 +94,7 @@ public class TestJobs2dApp {
 	}
 
 	private static void setupWindows(Application application) {
-		CommandsFeature commandsFeature = (CommandsFeature) FeatureManager.getFeature(CommandsFeature.class);
+		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(commandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManager);

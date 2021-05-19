@@ -9,7 +9,7 @@ import edu.kis.powp.jobs2d.features.FeatureManager;
 public class SelectClearPanelOptionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		DrawerFeature drawerFeature = (DrawerFeature) FeatureManager.getFeature(DrawerFeature.class);
+		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 		drawerFeature.getDrawerController().clearPanel();
 	}
 }
