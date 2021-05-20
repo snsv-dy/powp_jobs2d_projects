@@ -1,13 +1,14 @@
 package edu.kis.powp.jobs2d.features;
 
+import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.LoggerCommandChangeObserver;
 
-public class CommandsFeature {
+public class CommandsFeature implements Feature {
 
-	private static DriverCommandManager commandManager;
+	private DriverCommandManager commandManager;
 
-	public static void setupCommandManager() {
+	public void setup(Application application) {
 		commandManager = new DriverCommandManager();
 
 		LoggerCommandChangeObserver loggerObserver = new LoggerCommandChangeObserver();
@@ -19,7 +20,7 @@ public class CommandsFeature {
 	 * 
 	 * @return plotterCommandManager.
 	 */
-	public static DriverCommandManager getDriverCommandManager() {
+	public DriverCommandManager getDriverCommandManager() {
 		return commandManager;
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
+import edu.kis.powp.jobs2d.features.FeatureManager;
 
 public class SelectRunCurrentCommandOptionListener implements ActionListener {
 
@@ -17,7 +18,8 @@ public class SelectRunCurrentCommandOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
+		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+		DriverCommand command = commandsFeature.getDriverCommandManager().getCurrentCommand();
 		command.execute(driverManager.getCurrentDriver());
 	}
 }
