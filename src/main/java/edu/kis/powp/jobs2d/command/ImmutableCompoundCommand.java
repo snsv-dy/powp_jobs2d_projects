@@ -40,9 +40,7 @@ public final class ImmutableCompoundCommand implements ICompoundCommand {
 		return compoundCommand.toString();
 	}
 
-    public ImmutableCompoundCommand addCommand(DriverCommand command){
-        ImmutableCompoundCommand obj = (ImmutableCompoundCommand) this.clone();
-        obj.compoundCommand.addCommand(command);
-        return obj;
+    public CompoundCommand convertToMutableCommand(){
+        return this.compoundCommand;
     }
 }
