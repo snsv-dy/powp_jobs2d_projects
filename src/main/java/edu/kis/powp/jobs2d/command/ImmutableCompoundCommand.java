@@ -41,6 +41,6 @@ public final class ImmutableCompoundCommand implements ICompoundCommand {
 	}
 
     public CompoundCommand convertToMutableCommand(){
-        return this.compoundCommand;
+        return this.compoundCommand.clone();
     }
 }
