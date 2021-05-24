@@ -4,6 +4,10 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.visitor.MirrorFigureCommandVisitor;
+import edu.kis.powp.jobs2d.visitor.MoveFigureCommandVisitor;
+import edu.kis.powp.jobs2d.visitor.RotateFigureCommandVisitor;
+import edu.kis.powp.jobs2d.visitor.ScaleFigureCommandVisitor;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -21,6 +25,7 @@ public class DriverCommandManager {
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
+		//this.currentCommand.accept();
 		changePublisher.notifyObservers();
 	}
 
