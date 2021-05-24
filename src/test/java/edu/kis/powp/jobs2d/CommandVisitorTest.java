@@ -41,7 +41,6 @@ public class CommandVisitorTest {
         for(int i = 0; i < 2; ++i)
             commands.add(new SetPositionCommand(-i, i));
         
-        
         ICompoundCommand cdc = new CompoundCommand(commands, "Nowy");
 
         cdc.accept(visitor);
