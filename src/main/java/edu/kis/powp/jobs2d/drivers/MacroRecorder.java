@@ -9,28 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroRecorder {
-    private static Boolean status;
-    private static final List<DriverCommand> commands = new ArrayList<>();
+	private static Boolean status;
+	private static final List<DriverCommand> commands = new ArrayList<>();
 
-    public MacroRecorder() {
-        status = false;
-    }
-    public static void stopRecording() {
-        status = false;
-    }
-    public static void startRecording() {
-        status = true;
-    }
-    public static void clearCommands() {
-        commands.clear();
-    }
-    public static List<DriverCommand> getCommands() {
-        return new ArrayList<>(commands);
-    }
+	public MacroRecorder() {
+		status = false;
+	}
+	public static void stopRecording() {
+		status = false;
+	}
+	public static void startRecording() {
+		status = true;
+	}
+	public static void clearCommands() {
+		commands.clear();
+	}
+	public static List<DriverCommand> getCommands() {
+		return new ArrayList<>(commands);
+	}
 
-    public static void addCommand(DriverCommand command){
-        synchronized (commands) {
-            commands.add(command);
-        }
-    }
+	public static void addCommand(DriverCommand command){
+		synchronized (commands) {
+			commands.add(command);
+		}
+	}
 }
