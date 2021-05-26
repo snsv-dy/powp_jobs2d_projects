@@ -4,7 +4,6 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.magicpresets.FiguresJoe;
 import edu.kis.powp.jobs2d.visitor.RotateFigureCommandVisitor;
 
 import java.awt.event.ActionEvent;
@@ -24,4 +23,5 @@ public class SelectRotateFigureListener implements ActionListener {
         DriverCommandManager manager = commandsFeature.getDriverCommandManager();
         manager.acceptVisitor(new RotateFigureCommandVisitor(45));
     }
+
 }

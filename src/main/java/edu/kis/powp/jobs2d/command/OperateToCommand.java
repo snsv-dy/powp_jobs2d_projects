@@ -6,7 +6,7 @@ import edu.kis.powp.jobs2d.visitor.ICommandVisitor;
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
  */
-public class OperateToCommand implements DriverCommand {
+public class OperateToCommand implements DriverCommand, PositionCommand {
 
 	private int posX, posY;
 
@@ -38,19 +38,24 @@ public class OperateToCommand implements DriverCommand {
 		return posX == that.posX && posY == that.posY;
 	}
 
+	@Override
 	public int getPosX(){
 		return this.posX;
 	}
 
+	@Override
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
 
+	@Override
 	public int getPosY() {
 		return posY;
 	}
 
+	@Override
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+
 }

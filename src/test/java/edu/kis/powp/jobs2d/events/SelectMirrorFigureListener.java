@@ -5,7 +5,6 @@ import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.jobs2d.visitor.MirrorFigureCommandVisitor;
-import edu.kis.powp.jobs2d.visitor.MoveFigureCommandVisitor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,4 +23,5 @@ public class SelectMirrorFigureListener implements ActionListener {
         DriverCommandManager manager = commandsFeature.getDriverCommandManager();
         manager.acceptVisitor(new MirrorFigureCommandVisitor(true, false));
     }
+
 }

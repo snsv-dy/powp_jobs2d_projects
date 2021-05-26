@@ -1,13 +1,9 @@
 package edu.kis.powp.jobs2d.visitor;
 
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.*;
 
-import java.util.Iterator;
+public class MirrorFigureCommandVisitor implements TransformCommandVisitor{
 
-public class MirrorFigureCommandVisitor implements ICommandVisitor{
     private final boolean mirrorHorizontal;
     private final boolean mirrorVertical;
 
@@ -17,30 +13,9 @@ public class MirrorFigureCommandVisitor implements ICommandVisitor{
     }
 
     @Override
-    public void visit(OperateToCommand command) {
-        if (mirrorHorizontal){
-            command.setPosX(command.getPosX() * -1);
-        }
-        if(mirrorVertical){
-            command.setPosY(command.getPosY() * -1);
-        }
+    public void visitPositionCommand(PositionCommand command){
+        if (mirrorHorizontal) command.setPosX(command.getPosX() * -1);
+        if (mirrorVertical) command.setPosY(command.getPosY() * -1);
     }
 
-    @Override
-    public void visit(SetPositionCommand command) {
-        if (mirrorHorizontal){
-            command.setPosX(command.getPosX() * -1);
-        }
-        if(mirrorVertical){
-            command.setPosY(command.getPosY() * -1);
-        }
-    }
-
-    @Override
-    public void visit(ICompoundCommand commands) {
-        Iterator<DriverCommand> iter = commands.iterator();
-        iter.forEachRemaining(command -> {
-            command.accept(this);
-        });
-    }
 }

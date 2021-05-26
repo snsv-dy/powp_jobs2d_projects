@@ -1,13 +1,9 @@
 package edu.kis.powp.jobs2d.visitor;
 
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.*;
 
-import java.util.Iterator;
+public class ScaleFigureCommandVisitor implements TransformCommandVisitor{
 
-public class ScaleFigureCommandVisitor implements ICommandVisitor{
     private final double scale;
 
     public ScaleFigureCommandVisitor(double scale){
@@ -15,23 +11,9 @@ public class ScaleFigureCommandVisitor implements ICommandVisitor{
     }
 
     @Override
-    public void visit(OperateToCommand command) {
+    public void visitPositionCommand(PositionCommand command){
         command.setPosX((int) (command.getPosX() * scale));
         command.setPosY((int) (command.getPosY() * scale));
     }
 
-    @Override
-    public void visit(SetPositionCommand command) {
-        command.setPosX((int) (command.getPosX() * scale));
-        command.setPosY((int) (command.getPosY() * scale));
-    }
-
-    @Override
-    public void visit(ICompoundCommand commands) {
-        Iterator<DriverCommand> iter = commands.iterator();
-        iter.forEachRemaining(command -> {
-            command.accept(this);
-        });
-
-    }
 }
