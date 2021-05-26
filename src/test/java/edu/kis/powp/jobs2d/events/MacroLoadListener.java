@@ -14,7 +14,7 @@ public class MacroLoadListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         List<DriverCommand> commands = MacroRecorder.getCommands();
         if (!commands.isEmpty()) {
-            CommandsFeature commandsFeature = (CommandsFeature) FeatureManager.getFeature(CommandsFeature.class);
+            CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
             commandsFeature.getDriverCommandManager().setCurrentCommand(commands, "Recorded Macro");
         }
     }
