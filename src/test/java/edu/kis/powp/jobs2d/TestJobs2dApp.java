@@ -13,6 +13,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -86,6 +87,10 @@ public class TestJobs2dApp {
 		compositeDriver.add(loggerDriver);
 		compositeDriver.add(driver);
 		driverFeature.addDriver("Composite Driver", compositeDriver);
+
+		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
+
+		mouseClickAdapter.enable();
 	}
 
 	private static void setupWindows(Application application) {
