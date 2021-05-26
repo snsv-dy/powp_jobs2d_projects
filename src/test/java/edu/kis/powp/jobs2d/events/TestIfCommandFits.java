@@ -22,25 +22,25 @@ import static org.junit.Assert.assertTrue;
 
 public class TestIfCommandFits implements ActionListener {
 
-    private Shape bounds;
-    private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private Shape bounds;
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public TestIfCommandFits(Shape bounds) {
-        this.bounds = bounds;
-    }
+	public TestIfCommandFits(Shape bounds) {
+		this.bounds = bounds;
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        CommandsFeature commands = FeatureManager.getFeature(CommandsFeature.class);
-        CompoundCommand complex = (CompoundCommand)commands.getDriverCommandManager().getCurrentCommand();
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+		CommandsFeature commands = FeatureManager.getFeature(CommandsFeature.class);
+		CompoundCommand complex = (CompoundCommand)commands.getDriverCommandManager().getCurrentCommand();
 
-        ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(PaperFormats.getA4());
-        visitor.visit(complex);
+		ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(PaperFormats.getA4());
+		visitor.visit(complex);
 
-        if(visitor.getResult()){
-            logger.log(new LogRecord(Level.WARNING, "Loaded command exceeds current format."));
-        }else{
-            logger.log(new LogRecord(Level.INFO, "Loaded command fits inside current format."));
-        }
-    }
+		if(visitor.getResult()){
+			logger.log(new LogRecord(Level.WARNING, "Loaded command exceeds current format."));
+		}else{
+			logger.log(new LogRecord(Level.INFO, "Loaded command fits inside current format."));
+		}
+	}
 }

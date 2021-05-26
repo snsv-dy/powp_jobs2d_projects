@@ -10,12 +10,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class MacroLoadListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        List<DriverCommand> commands = MacroRecorder.getCommands();
-        if (!commands.isEmpty()) {
-            CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
-            commandsFeature.getDriverCommandManager().setCurrentCommand(commands, "Recorded Macro");
-        }
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		List<DriverCommand> commands = MacroRecorder.getCommands();
+		if (!commands.isEmpty()) {
+			CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+			commandsFeature.getDriverCommandManager().setCurrentCommand(commands, "Recorded Macro");
+		}
+	}
 }
