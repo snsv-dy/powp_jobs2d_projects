@@ -66,6 +66,7 @@ public class TestJobs2dApp {
 		application.addTest("Load recorded", new MacroLoadListener());
 
 		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
+		application.addTest("Test if exceeds B3", new TestIfCommandFits(PaperFormats.B3_v));
 	}
 
 	/**
