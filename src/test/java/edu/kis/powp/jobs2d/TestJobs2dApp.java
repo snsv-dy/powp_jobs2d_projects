@@ -2,24 +2,22 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.ComplexCommandFactory;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
+import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -45,30 +43,24 @@ public class TestJobs2dApp {
 		application.addTest("Rectangle", rectangleListener);
 		application.addTest("Triangle", triangleListener);
 
-	}
-
-	/**
-	 * Setup test using driver commands in context.
-	 * 
-	 * @param application Application context.
-	 */
-	private static void setupCommandTests(Application application) {
-		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
-
-		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-
-		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
-
-		application.addTest("Start recording", new MacroStartListener(driverFeature.getDriverManager()));
-
-		application.addTest("Stop recording", new MacroStopListener(driverFeature.getDriverManager()));
-
-		application.addTest("Load recorded", new MacroLoadListener());
-
 		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
 		application.addTest("Test if exceeds B3", new TestIfCommandFits(PaperFormats.B3_v));
 	}
-
+	/**
+	 * Setup utilities.
+	 *
+	 * @param application Application context.
+	 */
+	private static void setupUtilities(Application application) {
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		application.addComponentMenu(MacroRecorder.class, "Utils", 0);
+		// MACRO FUNCTIONS/COMMANDS
+		application.addComponentMenuElementWithCheckBox(MacroRecorder.class, "Macro record", new MacroToggleListener(driverFeature.getDriverManager()), false);
+		application.addComponentMenuElement(MacroRecorder.class, "Clear recorded", new MacroClearListener());
+		application.addComponentMenuElement(MacroRecorder.class, "Load recorded", new MacroLoadListener());
+		application.addComponentMenuElement(MacroRecorder.class, "Load secret command", new SelectLoadSecretCommandOptionListener());
+		application.addComponentMenuElement(MacroRecorder.class, "▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
+	}
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
 	 * 
@@ -113,7 +105,6 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
-
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
 				(ActionEvent e) -> application.flushLoggerOutput());
@@ -136,9 +127,9 @@ public class TestJobs2dApp {
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
 
+				setupUtilities(app);
 				setupDrivers(app);
 				setupPresetTests(app);
-				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
 
