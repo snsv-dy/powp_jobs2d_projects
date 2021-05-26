@@ -37,7 +37,7 @@ public class TestIfCommandFits implements ActionListener {
         ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(PaperFormats.getA4());
         visitor.visit(complex);
 
-        if(visitor.exceeds){
+        if(visitor.getResult()){
             logger.log(new LogRecord(Level.WARNING, "Loaded command exceeds current format."));
         }else{
             logger.log(new LogRecord(Level.INFO, "Loaded command fits inside current format."));

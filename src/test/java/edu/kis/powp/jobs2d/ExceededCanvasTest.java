@@ -27,7 +27,7 @@ public class ExceededCanvasTest {
         ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(PaperFormats.getA4());
         visitor.visit(complex);
 
-        assertTrue(visitor.exceeds);
+        assertTrue(visitor.getResult());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ExceededCanvasTest {
         ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(area);
         visitor.visit(complex);
 
-        assertTrue(visitor.exceeds);
+        assertTrue(visitor.getResult());
     }
 
 
@@ -67,6 +67,6 @@ public class ExceededCanvasTest {
         ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(area);
         visitor.visit(complex);
 
-        assertTrue(visitor.exceeds);
+        assertTrue(visitor.getResult());
     }
 }
