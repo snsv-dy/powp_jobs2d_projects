@@ -11,7 +11,7 @@ import java.util.List;
 public class ExceededCanvasVisitor implements ICommandVisitor{
 
     private Shape area;
-    public boolean exceeds = false;
+    public boolean exceeds = true;
 
     public ExceededCanvasVisitor(Shape area){
         this.area = area;

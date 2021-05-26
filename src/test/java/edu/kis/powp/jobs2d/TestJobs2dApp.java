@@ -64,6 +64,8 @@ public class TestJobs2dApp {
 		application.addTest("Stop recording", new MacroStopListener(driverFeature.getDriverManager()));
 
 		application.addTest("Load recorded", new MacroLoadListener());
+
+		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
 	}
 
 	/**
