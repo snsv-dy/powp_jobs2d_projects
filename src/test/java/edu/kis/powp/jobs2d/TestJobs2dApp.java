@@ -145,7 +145,7 @@ public class TestJobs2dApp {
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
 
-        setupUtilities(app);
+				setupUtilities(app);
 				setupMonitoringDeviceTests(app);
 				setupDrivers(app);
 				setupPresetTests(app);
