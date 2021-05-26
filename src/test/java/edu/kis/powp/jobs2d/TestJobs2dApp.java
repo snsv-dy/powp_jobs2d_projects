@@ -14,6 +14,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
@@ -97,7 +98,19 @@ public class TestJobs2dApp {
 
 		mouseClickAdapter.enable();
 	}
+	private static void setupMonitoringDeviceTests(Application application) {
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 
+		application.addTest("Monitoring device Test", new SelectMonitoringDeviceTestFigureOptionListener(driverFeature.getDriverManager()));
+		DrawPanelController drawerController = drawerFeature.getDrawerController();
+
+		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(lineDriverAdapter);
+
+		driverFeature.addDriver("Usage monitoring Simulator", usageMonitoringDriver);
+
+	}
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 
@@ -137,7 +150,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
-
+				setupMonitoringDeviceTests(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
