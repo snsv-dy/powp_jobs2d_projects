@@ -1,13 +1,12 @@
 package edu.kis.powp.jobs2d.command.manager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.visitor.MirrorFigureCommandVisitor;
-import edu.kis.powp.jobs2d.visitor.MoveFigureCommandVisitor;
-import edu.kis.powp.jobs2d.visitor.RotateFigureCommandVisitor;
-import edu.kis.powp.jobs2d.visitor.ScaleFigureCommandVisitor;
+import edu.kis.powp.jobs2d.visitor.*;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -19,13 +18,21 @@ public class DriverCommandManager {
 	private Publisher changePublisher = new Publisher();
 
 	/**
+	 * Accept visitor to current command.
+	 *
+	 * @param visitor visitor.
+	 */
+	public synchronized void acceptVisitor(ICommandVisitor visitor){
+		currentCommand.accept(visitor);
+	}
+
+	/**
 	 * Set current command.
 	 * 
 	 * @param commandList Set the command as current.
 	 */
 	public synchronized void setCurrentCommand(DriverCommand commandList) {
 		this.currentCommand = commandList;
-		//this.currentCommand.accept();
 		changePublisher.notifyObservers();
 	}
 
