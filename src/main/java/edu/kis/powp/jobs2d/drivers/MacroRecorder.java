@@ -20,10 +20,12 @@ public class MacroRecorder {
     }
     public static void startRecording() {
         status = true;
+    }
+    public static void clearCommands() {
         commands.clear();
     }
     public static List<DriverCommand> getCommands() {
-        return new ArrayList<DriverCommand>(commands);
+        return new ArrayList<>(commands);
     }
 
     public static void addCommand(DriverCommand command){
