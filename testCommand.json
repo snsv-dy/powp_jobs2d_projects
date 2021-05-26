@@ -1,0 +1,30 @@
+{
+  "name": "testCommand",
+  "driverCommands": [
+    {
+      "ClassName": "edu.kis.powp.jobs2d.command.SetPositionCommand",
+      "posX": 0,
+      "posY": 0
+    },
+    {
+      "ClassName": "edu.kis.powp.jobs2d.command.OperateToCommand",
+      "posX": 0,
+      "posY": 100
+    },
+    {
+      "ClassName": "edu.kis.powp.jobs2d.command.OperateToCommand",
+      "posX": 100,
+      "posY": 100
+    },
+    {
+      "ClassName": "edu.kis.powp.jobs2d.command.OperateToCommand",
+      "posX": 100,
+      "posY": 0
+    },
+    {
+      "ClassName": "edu.kis.powp.jobs2d.command.OperateToCommand",
+      "posX": 0,
+      "posY": 0
+    }
+  ]
+}
