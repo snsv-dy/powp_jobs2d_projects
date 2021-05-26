@@ -61,4 +61,5 @@ public class CompoundCommand implements ICompoundCommand {
 		Objects.requireNonNull(name);
 		driverCommands.add(command);
 	}
+
 }
