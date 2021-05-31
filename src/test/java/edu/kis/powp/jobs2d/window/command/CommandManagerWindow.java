@@ -1,17 +1,14 @@
 package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.List;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 	/**
@@ -32,8 +29,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
-//		this.commandManager = commandManager;
-
 		GridBagConstraints c = new GridBagConstraints();
 
 		observerListField = new JTextArea("");
@@ -41,6 +36,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
 		c.weighty = 1;
 		content.add(observerListField, c);
 		updateObserverListField();
@@ -50,51 +47,56 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
+		c.gridy = 1;
 		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
 		JButton btnRunCommand = new JButton("Run command");
-		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
-		btnRunCommand.addActionListener(new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 2;
+		btnRunCommand.addActionListener((ActionEvent e) -> runCommand());
 		content.add(btnRunCommand, c);
 
+		JButton btnClearCommand = new JButton("Clear command");
+		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
+		c.gridx = 1;
+		c.gridy = 2;
+		content.add(btnClearCommand, c);
+
 		JButton btnImportCommand = new JButton("Import command");
+		c.gridx = 0;
+		c.gridy = 3;
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommand());
 		content.add(btnImportCommand, c);
 
 		JButton btnExportCommand = new JButton("Export command");
+		c.gridx = 1;
+		c.gridy = 3;
 		btnExportCommand.addActionListener((ActionEvent e) -> this.exportCommand());
 		content.add(btnExportCommand, c);
 
-		JButton btnClearCommand = new JButton("Clear command");
-		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
-		content.add(btnClearCommand, c);
-
 		JButton btnClearObservers = new JButton("Delete observers");
 		btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
 		c.gridx = 0;
-		c.weighty = 1;
+		c.gridy = 4;
 		content.add(btnClearObservers, c);
 
 		JButton btnResetObservers = new JButton("Restore observers");
 		btnResetObservers.addActionListener((ActionEvent e) -> restoreObservers());
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.gridx = 0;
-		c.weighty = 1;
+		c.gridx = 1;
+		c.gridy = 4;
 		content.add(btnResetObservers, c);
 	}
 
 	private void clearCommand() {
 		controller.clearCommand();
 		updateCurrentCommandField();
+	}
+
+	private void runCommand() {
+		controller.runCommand();
 	}
 
 	private void importCommand() {
@@ -126,7 +128,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		int userSelection = fileChooser.showSaveDialog(null);
 
-//		int returnValue = fileChooser.showOpenDialog(null);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
@@ -167,10 +168,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();
-		if (this.isVisible()) {
-			this.setVisible(false);
-		} else {
-			this.setVisible(true);
-		}
+		this.setVisible(!this.isVisible());
 	}
 }

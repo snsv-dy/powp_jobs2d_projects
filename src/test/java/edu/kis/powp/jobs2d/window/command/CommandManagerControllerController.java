@@ -5,7 +5,9 @@ import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.FileOpertor;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
 
@@ -17,6 +19,7 @@ public class CommandManagerControllerController implements ICommandManagerContro
 	private DriverCommandManager commandManager;
 	private CommandImporter importer = new JsonCommandImporter();
 	private CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+	private DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 
 	public CommandManagerControllerController(DriverCommandManager commandManager) {
 		this.commandManager = commandManager;
@@ -57,5 +60,10 @@ public class CommandManagerControllerController implements ICommandManagerContro
 	@Override
 	public List<Subscriber> getObservers() {
 		return commandManager.getChangePublisher().getSubscribers();
+	}
+
+	@Override
+	public void runCommand() {
+		new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager());
 	}
 }

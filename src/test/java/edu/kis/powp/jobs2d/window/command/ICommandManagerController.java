@@ -9,6 +9,7 @@ public interface ICommandManagerController {
 	void importCommand(String path) throws IOException;
 	void exportCommand(String path) throws IOException;
 	void clearCommand();
+	void runCommand();
 	void restoreCommand();
 	String getCurrentCommandString();
 	void deleteObservers();
