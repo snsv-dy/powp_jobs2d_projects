@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.gui;
+package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.CommandImporter;
@@ -6,6 +6,9 @@ import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.FileOpertor;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
+import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -54,6 +57,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
+
+		JButton btnRunCommand = new JButton("Run command");
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		btnRunCommand.addActionListener(new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
+		content.add(btnRunCommand, c);
 
 		JButton btnImportCommand = new JButton("Import command");
 		btnImportCommand.addActionListener((ActionEvent e) -> this.importCommand());
