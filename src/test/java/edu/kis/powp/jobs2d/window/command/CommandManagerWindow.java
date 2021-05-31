@@ -1,13 +1,7 @@
 package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.CommandImporter;
-import edu.kis.powp.jobs2d.command.CompoundCommand;
-import edu.kis.powp.jobs2d.command.FileOpertor;
-import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
-import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
@@ -15,29 +9,30 @@ import edu.kis.powp.observer.Subscriber;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.List;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
-	private DriverCommandManager commandManager;
 	private JTextArea currentCommandField;
 	private String observerListString;
 	private JTextArea observerListField;
 	private String selectedFilePath;
-	private CommandImporter importer = new JsonCommandImporter();
 
-	public CommandManagerWindow(DriverCommandManager commandManager) {
+	private ICommandManagerController controller;
+
+	public CommandManagerWindow(ICommandManagerController controller) {
+		this.controller = controller;
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
-		this.commandManager = commandManager;
+//		this.commandManager = commandManager;
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -89,11 +84,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(btnClearObservers, c);
 
 		JButton btnResetObservers = new JButton("Restore observers");
-		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
-		btnResetObservers.addActionListener((ActionEvent e) -> {
-			commandsFeature.getDriverCommandManager().restoreSubscribers();
-			updateObserverListField();
-		});
+		btnResetObservers.addActionListener((ActionEvent e) -> restoreObservers());
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
@@ -102,7 +93,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void clearCommand() {
-		commandManager.clearCurrentCommand();
+		controller.clearCommand();
 		updateCurrentCommandField();
 	}
 
@@ -117,8 +108,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				String fileContent = FileOpertor.loadFileContent(selectedFilePath);
-				commandManager.setCurrentCommand(importer.importCommand(fileContent));
+				controller.importCommand(selectedFilePath);
 				updateCurrentCommandField();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -140,8 +130,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				String commandText = importer.exportCommand((CompoundCommand) commandManager.getCurrentCommand());
-				FileOpertor.writeFileContent(selectedFilePath,commandText);
+				controller.exportCommand(selectedFilePath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -150,17 +139,22 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void updateCurrentCommandField() {
-		currentCommandField.setText(commandManager.getCurrentCommandString());
+		currentCommandField.setText(controller.getCurrentCommandString());
 	}
 
 	public void deleteObservers() {
-		commandManager.getChangePublisher().clearObservers();
-		this.updateObserverListField();
+		controller.deleteObservers();
+		updateObserverListField();
+	}
+
+	private void restoreObservers() {
+		controller.restoreCommand();
+		updateObserverListField();
 	}
 
 	private void updateObserverListField() {
 		observerListString = "";
-		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
+		List<Subscriber> commandChangeSubscribers = controller.getObservers();
 		for (Subscriber observer : commandChangeSubscribers) {
 			observerListString += observer.toString() + System.lineSeparator();
 		}
@@ -168,10 +162,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			observerListString = "No observers loaded";
 
 		observerListField.setText(observerListString);
-	}
-
-	public String getSelectedFilePath() {
-		return selectedFilePath;
 	}
 
 	@Override
@@ -183,5 +173,4 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			this.setVisible(true);
 		}
 	}
-
 }
