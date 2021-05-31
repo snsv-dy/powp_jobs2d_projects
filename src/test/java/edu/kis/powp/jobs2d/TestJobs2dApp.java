@@ -154,6 +154,9 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 
+				CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+				commandsFeature.getDriverCommandManager().saveSubscribers();
+
 				app.setVisibility(true);
 			}
 		});

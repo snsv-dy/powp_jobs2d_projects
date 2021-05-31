@@ -7,6 +7,7 @@ import edu.kis.powp.jobs2d.command.FileOpertor;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
@@ -86,6 +87,18 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnClearObservers, c);
+
+		JButton btnResetObservers = new JButton("Restore observers");
+		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+		btnResetObservers.addActionListener((ActionEvent e) -> {
+			commandsFeature.getDriverCommandManager().restoreSubscribers();
+			updateObserverListField();
+		});
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnResetObservers, c);
 	}
 
 	private void clearCommand() {
