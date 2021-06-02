@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ICommandManagerController {
-	void importCommand(String path) throws IOException;
-	void exportCommand(String path) throws IOException;
+	void importCommand(String fileContent) throws IOException;
+	String exportCommand() throws IOException;
 	void clearCommand();
 	void runCommand();
 	void restoreCommand();
