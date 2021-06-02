@@ -14,25 +14,21 @@ import edu.kis.powp.observer.Subscriber;
 import java.io.IOException;
 import java.util.List;
 
-public class CommandManagerControllerController implements ICommandManagerController {
+public class CommandManagerController implements ICommandManagerController {
 
 	private DriverCommandManager commandManager;
-	private CommandImporter importer = new JsonCommandImporter();
-	private CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
-	private DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 
-	public CommandManagerControllerController(DriverCommandManager commandManager) {
+	public CommandManagerController(DriverCommandManager commandManager) {
 		this.commandManager = commandManager;
 	}
 
 	@Override
-	public void importCommand(String path) throws IOException {
-		String fileContent = FileOpertor.loadFileContent(path);
+	public void importCommand(String fileContent, CommandImporter importer) throws IOException {
 		commandManager.setCurrentCommand(importer.importCommand(fileContent));
 	}
 
 	@Override
-	public void exportCommand(String path) throws IOException {
+	public void exportCommand(String path, CommandImporter importer) throws IOException {
 		String commandText = importer.exportCommand((CompoundCommand) commandManager.getCurrentCommand());
 		FileOpertor.writeFileContent(path,commandText);
 	}
@@ -43,7 +39,7 @@ public class CommandManagerControllerController implements ICommandManagerContro
 	}
 
 	@Override
-	public void restoreCommand() {
+	public void restoreCommand(CommandsFeature commandsFeature) {
 		commandsFeature.getDriverCommandManager().restoreSubscribers();
 	}
 
@@ -63,7 +59,7 @@ public class CommandManagerControllerController implements ICommandManagerContro
 	}
 
 	@Override
-	public void runCommand() {
+	public void runCommand(DriverFeature driverFeature) {
 		new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager());
 	}
 }

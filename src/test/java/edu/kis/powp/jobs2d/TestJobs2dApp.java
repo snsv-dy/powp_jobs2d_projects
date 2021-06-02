@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.window.command.CommandManagerControllerController;
+import edu.kis.powp.jobs2d.window.command.CommandManagerController;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindow;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
@@ -112,7 +112,7 @@ public class TestJobs2dApp {
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 
-		CommandManagerWindow commandManager = new CommandManagerWindow(new CommandManagerControllerController(commandsFeature.getDriverCommandManager()));
+		CommandManagerWindow commandManager = new CommandManagerWindow(new CommandManagerController(commandsFeature.getDriverCommandManager()));
 		application.addWindowComponent("Command Manager", commandManager);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
