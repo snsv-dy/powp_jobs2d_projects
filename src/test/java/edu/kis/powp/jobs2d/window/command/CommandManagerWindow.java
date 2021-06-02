@@ -2,10 +2,6 @@ package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.FileOpertor;
-import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -101,7 +97,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void runCommand() {
-		controller.runCommand(FeatureManager.getFeature(DriverFeature.class));
+		controller.runCommand();
 	}
 
 	private void importCommand() {
@@ -116,7 +112,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
 				String fileContent = FileOpertor.loadFileContent(selectedFilePath);
-				controller.importCommand(fileContent,new JsonCommandImporter());
+				controller.importCommand(fileContent);
 				updateCurrentCommandField();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -137,7 +133,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			selectedFilePath = fileChooser.getSelectedFile().getAbsoluteFile().toString();
 			try {
-				controller.exportCommand(selectedFilePath,new JsonCommandImporter());
+				String data = controller.exportCommand();
+				FileOpertor.writeFileContent(selectedFilePath, data);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -155,7 +152,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	private void restoreObservers() {
-		controller.restoreCommand(FeatureManager.getFeature(CommandsFeature.class));
+		controller.restoreCommand();
 		updateObserverListField();
 	}
 
