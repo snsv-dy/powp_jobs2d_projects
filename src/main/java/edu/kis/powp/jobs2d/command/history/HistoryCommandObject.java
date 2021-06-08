@@ -1,12 +1,13 @@
 package edu.kis.powp.jobs2d.command.history;
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 
 public class HistoryCommandObject {
     private String name,date;
-    private DriverCommand comm;
+    private ICompoundCommand comm;
 
-    public HistoryCommandObject(String date, String commandName, DriverCommand command) {
+    public HistoryCommandObject(String date, String commandName, ICompoundCommand command) {
         this.date = date;
         this.name = commandName;
         this.comm = command;
