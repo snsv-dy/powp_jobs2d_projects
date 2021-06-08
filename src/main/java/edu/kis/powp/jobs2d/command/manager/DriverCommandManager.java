@@ -1,7 +1,5 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
@@ -22,8 +20,8 @@ public class DriverCommandManager {
 	 *
 	 * @param visitor visitor.
 	 */
-	public synchronized void acceptVisitor(ICommandVisitor visitor){
-		currentCommand.accept(visitor);
+	public synchronized void acceptVisitor(TransformCommandVisitor visitor){
+		currentCommand = currentCommand.accept(visitor);
 	}
 
 	/**

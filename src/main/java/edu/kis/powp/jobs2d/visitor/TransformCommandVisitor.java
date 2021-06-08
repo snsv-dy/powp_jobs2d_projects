@@ -2,28 +2,26 @@ package edu.kis.powp.jobs2d.visitor;
 
 import edu.kis.powp.jobs2d.command.*;
 
+import java.sql.Driver;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public interface TransformCommandVisitor extends ICommandVisitor {
+public interface TransformCommandVisitor {
 
-    void visitPositionCommand(PositionCommand command);
+    SetPositionCommand visit (SetPositionCommand command);
 
-    @Override
-    default void visit(SetPositionCommand command) {
-        visitPositionCommand(command);
-    }
+    OperateToCommand visit(OperateToCommand command);
 
-    @Override
-    default void visit(OperateToCommand command) {
-        visitPositionCommand(command);
-    }
-
-    @Override
-    default void visit(ICompoundCommand commands) {
-        Iterator<DriverCommand> iter = commands.iterator();
-        iter.forEachRemaining(command -> {
-            command.accept(this);
-        });
+    default CompoundCommand visit(ICompoundCommand commands) {
+        List<DriverCommand> modifiedCommands = new ArrayList<>();
+        Iterator<DriverCommand> iterator = commands.iterator();
+        while(iterator.hasNext()) {
+            DriverCommand command = iterator.next();
+            command = command.accept(this);
+            modifiedCommands.add(command);
+        }
+        return new CompoundCommand(modifiedCommands, commands.toString());
     }
 
 }
