@@ -10,6 +10,7 @@ import edu.kis.powp.observer.Publisher;
  */
 public class DriverManager {
 	private Job2dDriver currentDriver = new LoggerDriver();
+	private CompositeDriver compositeDriver = new CompositeDriver();
 	private static Publisher publisher = new Publisher();
 
 	public Publisher getPublisher(){
@@ -20,6 +21,8 @@ public class DriverManager {
 	 * @param driver Set the driver as current.
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
+		compositeDriver.remove(currentDriver);
+		compositeDriver.add(driver);
 		currentDriver = driver;
 		publisher.notifyObservers();
 	}
@@ -28,6 +31,8 @@ public class DriverManager {
 	 * @return Current driver.
 	 */
 	public synchronized Job2dDriver getCurrentDriver() {
-		return currentDriver;
+		return compositeDriver;
+//		return currentDriver;
 	}
+
 }

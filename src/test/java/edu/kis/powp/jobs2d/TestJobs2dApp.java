@@ -91,22 +91,25 @@ public class TestJobs2dApp {
 
 
 
-
-		CompositeDriver compositeDriver = new CompositeDriver();
-		Job2dDriver usageMonitoringDriver = new UsageMonitoringDriver(driver);
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(driver);
 
 		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver",  (ActionEvent e) ->{
+			CompositeDriver compositeDriver = (CompositeDriver)driverFeature.getDriverManager().getCurrentDriver();
 			if(((JCheckBoxMenuItem)e.getSource()).getState())
 				compositeDriver.add(loggerDriver);
 			else
 				compositeDriver.remove(loggerDriver);
 		}, false);
+
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor", (ActionEvent e) -> {
-			if(((JCheckBoxMenuItem)e.getSource()).getState())
+			CompositeDriver compositeDriver = (CompositeDriver)driverFeature.getDriverManager().getCurrentDriver();
+			if(((JCheckBoxMenuItem)e.getSource()).getState()){
 				compositeDriver.add(usageMonitoringDriver);
-			else
+			}
+			else{
 				compositeDriver.remove(usageMonitoringDriver);
+			}
 		}, false );
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
