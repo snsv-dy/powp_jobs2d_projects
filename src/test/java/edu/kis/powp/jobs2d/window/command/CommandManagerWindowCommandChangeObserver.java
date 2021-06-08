@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.gui;
+package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.observer.Subscriber;
 
