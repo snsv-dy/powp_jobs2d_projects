@@ -2,6 +2,11 @@ package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.FileOpertor;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.history.HistoryCommandList;
+import edu.kis.powp.jobs2d.command.history.HistoryCommandObject;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.events.SelectHistoryCommandOptionListener;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -23,10 +28,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private ICommandManagerController controller;
 
-	public CommandManagerWindow(ICommandManagerController controller) {
+	private JTextArea listTitle;
+	private JList<HistoryCommandObject> commandList;
+
+	public CommandManagerWindow(ICommandManagerController controller, DriverCommandManager commandManager) {
 		this.controller = controller;
+		this.commandList = new JList<>(HistoryCommandList.getHistoryCommandList());
 		this.setTitle("Command Manager");
-		this.setSize(400, 400);
+		this.setSize(400, 600);
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
@@ -89,6 +98,28 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 1;
 		c.gridy = 4;
 		content.add(btnResetObservers, c);
+
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 2;
+		c.weighty = 1;
+
+		listTitle = new JTextArea("List of previously used commands:");
+		listTitle.setEditable(false);
+		content.add(listTitle, c);
+
+		c.gridy = 6;
+
+		JScrollPane scroll = new JScrollPane(commandList);
+		scroll.setMinimumSize (new Dimension (100,200));
+		content.add(scroll, c);
+		commandList.addListSelectionListener(new SelectHistoryCommandOptionListener(commandManager));
+	}
+
+	public void addToHistory() {
+		HistoryCommandList.addCommandToList(controller.getCurrentCommandString(), controller.getCurrentCommand());
 	}
 
 	private void clearCommand() {
