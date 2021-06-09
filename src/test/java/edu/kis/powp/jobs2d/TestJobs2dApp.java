@@ -73,6 +73,14 @@ public class TestJobs2dApp {
 		application.addTest("Load recorded", new MacroLoadListener());
 	}
 
+	private static void setupVisitorTests(Application application) {
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		application.addTest("Rotate", new SelectRotateFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Scale", new SelectScaleFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Mirror", new SelectMirrorFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Move", new SelectMoveFigureListener(driverFeature.getDriverManager()));
+	}
+
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
 	 * 
@@ -197,6 +205,7 @@ public class TestJobs2dApp {
 				setupPresetTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				setupVisitorTests(app);
 
 				CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 				commandsFeature.getDriverCommandManager().saveSubscribers();
