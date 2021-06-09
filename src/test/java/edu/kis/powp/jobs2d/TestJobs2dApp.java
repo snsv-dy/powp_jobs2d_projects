@@ -10,6 +10,7 @@ import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
+import edu.kis.powp.jobs2d.drivers.UsageDriver;
 import edu.kis.powp.jobs2d.window.command.CommandManagerController;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindow;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindowCommandChangeObserver;
@@ -87,11 +88,11 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		driverFeature.addDriver("Special line Simulator", driver);
 		CompositeDriver compositeDriver = new CompositeDriver();
-		Job2dDriver usageMonitoringDriver = new UsageMonitoringDriver(driver);
+		Job2dDriver usageDriver = new UsageDriver();
 
 		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver",  (ActionEvent e) -> compositeDriver.add(loggerDriver), false);
-		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor", (ActionEvent e) -> compositeDriver.add(usageMonitoringDriver), false );
+		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageDriver", (ActionEvent e) -> compositeDriver.add(usageDriver), false );
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
 		mouseClickAdapter.enable();
