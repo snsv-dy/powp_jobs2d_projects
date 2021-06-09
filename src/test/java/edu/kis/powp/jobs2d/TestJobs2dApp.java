@@ -91,13 +91,13 @@ public class TestJobs2dApp {
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
 		);
 		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 0.5d));
-		driverFeature.addDriver("Scale 0,5", scaleTransformationDriver);
+		driverFeature.addDriver("Scale 0.5x", scaleTransformationDriver);
 
 		TransformationDriver scaleTransformationDriver2 = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
 		);
 		scaleTransformationDriver2.addNewTransformation(new Scale(2d, 2d));
-		driverFeature.addDriver("Scale 2.0", scaleTransformationDriver2);
+		driverFeature.addDriver("Scale 2x", scaleTransformationDriver2);
 
 		TransformationDriver rotateTransformationDriver = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
@@ -109,14 +109,14 @@ public class TestJobs2dApp {
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
 		);
 		flipHorizontalTransformationDriver.addNewTransformation(new HorizontalFlip());
-		driverFeature.addDriver("Flip Horizontal", rotateTransformationDriver);
+		driverFeature.addDriver("Flip Horizontal", flipHorizontalTransformationDriver);
 
 
 		TransformationDriver flipVerticalTransformationDriver = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
 		);
 		flipVerticalTransformationDriver.addNewTransformation(new VerticalFlip());
-		driverFeature.addDriver("Flip Vertical", rotateTransformationDriver);
+		driverFeature.addDriver("Flip Vertical", flipVerticalTransformationDriver);
 
 		CompositeDriver compositeDriver = new CompositeDriver();
 		compositeDriver.add(loggerDriver);

@@ -8,7 +8,7 @@ public class HorizontalFlip implements TransformInterface{
     @Override
     public Point transform(Point point) {
         return new Point(
-                (int) (400 - point.getX() -1),
+                (int) (-point.getX()),
                 (int) (point.getY())
         );
     }

@@ -9,7 +9,7 @@ public class VerticalFlip implements TransformInterface {
     public Point transform(Point point) {
         return new Point(
                 (int) (point.getX()),
-                (int) (400 - point.getY() - 1)
+                (int) (-point.getY())
         );
     }
 }
