@@ -1,5 +1,7 @@
 package edu.kis.powp.jobs2d.visitor;
 
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 
@@ -8,6 +10,7 @@ public class RotateFigureCommandVisitor implements TransformCommandVisitor{
     private final double degree;
     private int posX;
     private int posY;
+    private DriverCommand command;
 
     public RotateFigureCommandVisitor(double degree){
         this.degree = Math.toRadians(degree);
@@ -29,14 +32,24 @@ public class RotateFigureCommandVisitor implements TransformCommandVisitor{
     }
 
     @Override
-    public SetPositionCommand visit(SetPositionCommand command) {
+    public void visit(SetPositionCommand command) {
         setRotated(command.getPosX(), command.getPosY());
-        return new SetPositionCommand(posX, posY);
+        this.command = new SetPositionCommand(posX, posY);
     }
 
     @Override
-    public OperateToCommand visit(OperateToCommand command) {
+    public void visit(OperateToCommand command) {
         setRotated(command.getPosX(), command.getPosY());
-        return new OperateToCommand(posX, posY);
+        this.command = new OperateToCommand(posX, posY);
+    }
+
+    @Override
+    public void visit(ICompoundCommand commands) {
+        this.command = this.getCommandList(commands);
+    }
+
+    @Override
+    public DriverCommand getResult() {
+        return this.command;
     }
 }

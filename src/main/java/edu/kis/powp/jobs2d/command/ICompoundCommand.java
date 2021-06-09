@@ -13,7 +13,7 @@ public interface ICompoundCommand extends DriverCommand {
 	public default void accept(ICommandVisitor visitor){
 		visitor.visit(this);
 	}
-	public default ICompoundCommand accept(TransformCommandVisitor visitor){
-		return visitor.visit(this);
+	public default void accept(TransformCommandVisitor visitor){
+		visitor.visit(this);
 	}
 }

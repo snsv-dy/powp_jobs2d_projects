@@ -8,6 +8,7 @@ public class MirrorFigureCommandVisitor implements TransformCommandVisitor{
     private final boolean mirrorVertical;
     private int posX;
     private int posY;
+    private DriverCommand command;
 
     public MirrorFigureCommandVisitor(boolean mirrorHorizontal, boolean mirrorVertical){
         this.mirrorHorizontal = mirrorHorizontal;
@@ -30,14 +31,24 @@ public class MirrorFigureCommandVisitor implements TransformCommandVisitor{
     }
 
     @Override
-    public SetPositionCommand visit(SetPositionCommand command) {
+    public void visit(SetPositionCommand command) {
         setMirrored(command.getPosX(), command.getPosY());
-        return new SetPositionCommand(posX, posY);
+        this.command = new SetPositionCommand(posX, posY);
     }
 
     @Override
-    public OperateToCommand visit(OperateToCommand command) {
+    public void visit(OperateToCommand command) {
         setMirrored(command.getPosX(), command.getPosY());
-        return new OperateToCommand(posX, posY);
+        this.command = new OperateToCommand(posX, posY);
+    }
+
+    @Override
+    public void visit(ICompoundCommand commands) {
+        this.command = this.getCommandList(commands);
+    }
+
+    @Override
+    public DriverCommand getResult() {
+        return this.command;
     }
 }

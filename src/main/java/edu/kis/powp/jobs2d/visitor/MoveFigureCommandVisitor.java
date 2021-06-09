@@ -8,6 +8,7 @@ public class MoveFigureCommandVisitor implements TransformCommandVisitor {
     private final int moveY;
     private int posX;
     private int posY;
+    private DriverCommand command;
 
     public MoveFigureCommandVisitor(int moveX, int moveY){
         this.moveX = moveX;
@@ -20,14 +21,24 @@ public class MoveFigureCommandVisitor implements TransformCommandVisitor {
     }
 
     @Override
-    public SetPositionCommand visit(SetPositionCommand command) {
+    public void visit(SetPositionCommand command) {
         setMoved(command.getPosX(), command.getPosY());
-        return new SetPositionCommand(posX, posY);
+        this.command = new SetPositionCommand(posX, posY);
     }
 
     @Override
-    public OperateToCommand visit(OperateToCommand command) {
+    public void visit(OperateToCommand command) {
         setMoved(command.getPosX(), command.getPosY());
-        return new OperateToCommand(posX, posY);
+        this.command = new OperateToCommand(posX, posY);
+    }
+
+    @Override
+    public void visit(ICompoundCommand commands) {
+        this.command = this.getCommandList(commands);
+    }
+
+    @Override
+    public DriverCommand getResult() {
+        return this.command;
     }
 }

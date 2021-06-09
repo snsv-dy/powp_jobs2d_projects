@@ -7,6 +7,7 @@ public class ScaleFigureCommandVisitor implements TransformCommandVisitor{
     private final double scale;
     private int posX;
     private int posY;
+    private DriverCommand command;
 
     public ScaleFigureCommandVisitor(double scale){
         this.scale = scale;
@@ -18,14 +19,24 @@ public class ScaleFigureCommandVisitor implements TransformCommandVisitor{
     }
 
     @Override
-    public SetPositionCommand visit(SetPositionCommand command) {
+    public void visit(SetPositionCommand command) {
         setScaled(command.getPosX(), command.getPosY());
-        return new SetPositionCommand(posX, posY);
+        this.command = new SetPositionCommand(posX, posY);
     }
 
     @Override
-    public OperateToCommand visit(OperateToCommand command) {
+    public void visit(OperateToCommand command) {
         setScaled(command.getPosX(), command.getPosY());
-        return new OperateToCommand(posX, posY);
+        this.command = new OperateToCommand(posX, posY);
+    }
+
+    @Override
+    public void visit(ICompoundCommand commands) {
+        this.command = this.getCommandList(commands);
+    }
+
+    @Override
+    public DriverCommand getResult() {
+        return this.command;
     }
 }

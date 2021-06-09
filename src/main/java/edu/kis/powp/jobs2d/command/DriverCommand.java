@@ -16,6 +16,6 @@ public interface DriverCommand {
 	 */
 	public void execute(Job2dDriver driver);
 	public void accept(ICommandVisitor visitor);
-	public DriverCommand accept(TransformCommandVisitor visitor);
+	public void accept(TransformCommandVisitor visitor);
 	public DriverCommand clone();
 }

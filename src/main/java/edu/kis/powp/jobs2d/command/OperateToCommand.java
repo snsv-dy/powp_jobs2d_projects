@@ -7,7 +7,7 @@ import edu.kis.powp.jobs2d.visitor.TransformCommandVisitor;
 /**
  * Implementation of Job2dDriverCommand for operateTo command functionality.
  */
-public class OperateToCommand implements DriverCommand, PositionCommand {
+public class OperateToCommand implements DriverCommand{
 
 	private int posX, posY;
 
@@ -28,8 +28,8 @@ public class OperateToCommand implements DriverCommand, PositionCommand {
   }
 
 	@Override
-	public DriverCommand accept(TransformCommandVisitor visitor) {
-		return visitor.visit(this);
+	public void accept(TransformCommandVisitor visitor) {
+		visitor.visit(this);
 	}
 
 	public OperateToCommand clone() {
@@ -44,7 +44,6 @@ public class OperateToCommand implements DriverCommand, PositionCommand {
 		return posX == that.posX && posY == that.posY;
 	}
 
-	@Override
 	public int getPosX(){
 		return this.posX;
 	}
@@ -53,7 +52,6 @@ public class OperateToCommand implements DriverCommand, PositionCommand {
 		this.posX = posX;
 	}
 
-	@Override
 	public int getPosY() {
 		return posY;
 	}

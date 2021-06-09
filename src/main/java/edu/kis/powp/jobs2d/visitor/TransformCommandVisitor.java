@@ -9,19 +9,24 @@ import java.util.List;
 
 public interface TransformCommandVisitor {
 
-    SetPositionCommand visit (SetPositionCommand command);
+    void visit (SetPositionCommand command);
 
-    OperateToCommand visit(OperateToCommand command);
+    void visit(OperateToCommand command);
 
-    default CompoundCommand visit(ICompoundCommand commands) {
+    void visit(ICompoundCommand commands);
+
+    default ICompoundCommand getCommandList(ICompoundCommand commands) {
         List<DriverCommand> modifiedCommands = new ArrayList<>();
         Iterator<DriverCommand> iterator = commands.iterator();
         while(iterator.hasNext()) {
             DriverCommand command = iterator.next();
-            command = command.accept(this);
+            command.accept(this);
+            command = this.getResult();
             modifiedCommands.add(command);
         }
         return new CompoundCommand(modifiedCommands, commands.toString());
     }
+
+    DriverCommand getResult();
 
 }
