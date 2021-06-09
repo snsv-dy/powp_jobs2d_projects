@@ -2,16 +2,16 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.ComplexCommandFactory;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
+import edu.kis.powp.jobs2d.window.command.CommandManagerController;
+import edu.kis.powp.jobs2d.window.command.CommandManagerWindow;
+import edu.kis.powp.jobs2d.window.command.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
@@ -21,7 +21,7 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
+import edu.kis.powp.jobs2d.window.command.ICommandManagerController;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -121,12 +121,15 @@ public class TestJobs2dApp {
 	}
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 
-		CommandManagerWindow commandManager = new CommandManagerWindow(commandsFeature.getDriverCommandManager());
-		application.addWindowComponent("Command Manager", commandManager);
+		ICommandManagerController commandManagerController = new CommandManagerController(driverFeature.getDriverManager(),
+				commandsFeature.getDriverCommandManager(), new JsonCommandImporter());
+		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController);
+		application.addWindowComponent("Command Manager", commandManagerWindow);
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
-				commandManager);
+				commandManagerWindow);
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 	}
 
@@ -165,6 +168,9 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 				setupVisitorTests(app);
+
+				CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
+				commandsFeature.getDriverCommandManager().saveSubscribers();
 
 				app.setVisibility(true);
 			}
