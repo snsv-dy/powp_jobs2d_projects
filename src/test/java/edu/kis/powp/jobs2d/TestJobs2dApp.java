@@ -82,7 +82,7 @@ public class TestJobs2dApp {
 		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 
-		Job2dDriver loggerDriver = new LoggerDriver();
+		
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		driverFeature.addDriver("Line Simulator", driver);
@@ -92,8 +92,8 @@ public class TestJobs2dApp {
 		driverFeature.addDriver("Special line Simulator", driver);
 
 
-
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(driverFeature.getDriverManager());
+		Job2dDriver loggerDriver = new LoggerDriver();
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver();
 		SelectUtilsDriverOptionListener loggerDriverOptionListener = new SelectUtilsDriverOptionListener(loggerDriver,driverFeature.getDriverManager());
 		SelectUtilsDriverOptionListener usageMonitorDriverOptionListener = new SelectUtilsDriverOptionListener(usageMonitoringDriver,driverFeature.getDriverManager());
 

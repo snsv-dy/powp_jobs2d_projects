@@ -12,7 +12,7 @@ import javax.print.attribute.standard.JobSheets;
  * components and features of the application to react on configuration changes.
  */
 public class DriverManager {
-	private LineDriverAdapter currentDriver;
+	private Job2dDriver currentDriver;
 	private CompositeDriver compositeDriver = new CompositeDriver();
 	private static Publisher publisher = new Publisher();
 
@@ -26,7 +26,7 @@ public class DriverManager {
 	public synchronized void setCurrentDriver(Job2dDriver driver) { // should by LineDriverAdapter, but will not work with MacroRecorder
 		compositeDriver.remove(currentDriver);
 		compositeDriver.add(driver);
-		currentDriver =  (LineDriverAdapter) driver;
+		currentDriver = driver;
 		publisher.notifyObservers();
 	}
 
@@ -36,7 +36,7 @@ public class DriverManager {
 	public synchronized Job2dDriver getCurrentDriver() {
 		return compositeDriver;
 	}
-	public synchronized LineDriverAdapter getMainDriver() {
+	public synchronized Job2dDriver getMainDriver() {
 		return currentDriver;
 	}
 	public void addUtilsDriver(Job2dDriver utilsDriver){

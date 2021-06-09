@@ -10,29 +10,30 @@ import static java.lang.Math.pow;
 
 public class UsageMonitoringDriver  implements Job2dDriver {
 
-	private DriverManager driverManager;
 	private static final Logger LOGGER = Logger.getLogger("global");
 	private int headDistance = 0;
 	private int opDistance = 0;
+	private int startX = 0;
+	private int startY = 0;
 
+	public UsageMonitoringDriver() {
 
-	public UsageMonitoringDriver(DriverManager driverManager) {
-		this.driverManager = driverManager;
 	}
 
 	public void setPosition(int x, int y) {
-		LineDriverAdapter lineDriverAdapter = driverManager.getMainDriver();
-		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
+		headDistance += distanceBetweenPoints(startX, startY, x, y);
 		LOGGER.info("Head distance: " + headDistance + " units" + " " + "Op.distance: " + opDistance + " units");
+		startX = x;
+		startY = y;
 	}
 
 
 	public void operateTo(int x, int y) {
-		LineDriverAdapter lineDriverAdapter = driverManager.getMainDriver();
-		opDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
-		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
+		opDistance += distanceBetweenPoints(startX, startY, x, y);
+		headDistance += distanceBetweenPoints(startX, startY, x, y);
 		LOGGER.info("Op.distance: " + opDistance + " units");
-
+		startX = x;
+		startY = y;
 	}
 
 	public int getHeadDistance() {
