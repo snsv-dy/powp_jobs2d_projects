@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.visitor.*;
 import edu.kis.powp.observer.Publisher;
 import edu.kis.powp.observer.Subscriber;
 
@@ -16,6 +17,16 @@ public class DriverCommandManager {
 
 	private Publisher changePublisher = new Publisher();
 	private List<Subscriber> savedSubscribers;
+
+	/**
+	 * Accept visitor to current command.
+	 *
+	 * @param visitor visitor.
+	 */
+	public synchronized void acceptVisitor(FigureCommandVisitor visitor){
+		currentCommand.accept(visitor);
+		currentCommand = visitor.getResult();
+	}
 
 	/**
 	 * Set current command.

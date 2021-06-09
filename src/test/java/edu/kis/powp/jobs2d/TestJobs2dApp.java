@@ -3,18 +3,22 @@ package edu.kis.powp.jobs2d;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.drivers.UsageDriver;
 import edu.kis.powp.jobs2d.window.command.CommandManagerController;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindow;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.window.command.*;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
+import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
@@ -23,7 +27,8 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.window.command.ICommandManagerController;
+import edu.kis.powp.jobs2d.transformations.*;
+import edu.kis.powp.jobs2d.transformations.TransformationDriver;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -49,6 +54,8 @@ public class TestJobs2dApp {
 		application.addTest("Rectangle", rectangleListener);
 		application.addTest("Triangle", triangleListener);
 
+		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
+		application.addTest("Test if exceeds B3", new TestIfCommandFits(PaperFormats.B3_v));
 	}
 
 	/**
@@ -70,6 +77,14 @@ public class TestJobs2dApp {
 		application.addTest("Load recorded", new MacroLoadListener());
 	}
 
+	private static void setupVisitorTests(Application application) {
+		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
+		application.addTest("Rotate", new SelectRotateFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Scale", new SelectScaleFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Mirror", new SelectMirrorFigureListener(driverFeature.getDriverManager()));
+		application.addTest("Move", new SelectMoveFigureListener(driverFeature.getDriverManager()));
+	}
+
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
 	 *
@@ -87,6 +102,37 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		driverFeature.addDriver("Special line Simulator", driver);
+		TransformationDriver scaleTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 0.5d));
+		driverFeature.addDriver("Scale 0.5x", scaleTransformationDriver);
+
+		TransformationDriver scaleTransformationDriver2 = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver2.addNewTransformation(new Scale(2d, 2d));
+		driverFeature.addDriver("Scale 2x", scaleTransformationDriver2);
+
+		TransformationDriver rotateTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		rotateTransformationDriver.addNewTransformation(new Rotate());
+		driverFeature.addDriver("Rotate random", rotateTransformationDriver);
+
+		TransformationDriver flipHorizontalTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		flipHorizontalTransformationDriver.addNewTransformation(new HorizontalFlip());
+		driverFeature.addDriver("Flip Horizontal", flipHorizontalTransformationDriver);
+
+
+		TransformationDriver flipVerticalTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		flipVerticalTransformationDriver.addNewTransformation(new VerticalFlip());
+		driverFeature.addDriver("Flip Vertical", flipVerticalTransformationDriver);
+
 		CompositeDriver compositeDriver = new CompositeDriver();
 		Job2dDriver usageDriver = new UsageDriver();
 
@@ -115,12 +161,15 @@ public class TestJobs2dApp {
 
 		ICommandManagerController commandManagerController = new CommandManagerController(driverFeature.getDriverManager(),
 				commandsFeature.getDriverCommandManager(), new JsonCommandImporter());
-		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController);
+		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController, commandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManagerWindow);
-
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManagerWindow);
+
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		HistoryCommandListChangeObserver historyObserver = new HistoryCommandListChangeObserver(
+				commandManagerWindow);
+		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(historyObserver);
 	}
 
 	/**
@@ -129,7 +178,6 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
-
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
 				(ActionEvent e) -> application.flushLoggerOutput());
@@ -151,12 +199,14 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
+
 				setupMonitoringDeviceTests(app);
 				setupDrivers(app);
-				setupPresetTests(app);
 				setupCommandTests(app);
+				setupPresetTests(app);
 				setupLogger(app);
 				setupWindows(app);
+				setupVisitorTests(app);
 
 				CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 				commandsFeature.getDriverCommandManager().saveSubscribers();
