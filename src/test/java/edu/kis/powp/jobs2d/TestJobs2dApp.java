@@ -23,6 +23,8 @@ import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.jobs2d.window.command.ICommandManagerController;
+
+import javax.sound.sampled.Line;
 import javax.swing.JCheckBoxMenuItem;
 
 
@@ -82,7 +84,7 @@ public class TestJobs2dApp {
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
-		LineDriverAdapter driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		driverFeature.addDriver("Line Simulator", driver);
 		driverFeature.getDriverManager().setCurrentDriver(driver);
 
@@ -91,26 +93,14 @@ public class TestJobs2dApp {
 
 
 
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(driver);
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(driverFeature.getDriverManager());
+		SelectUtilsDriverOptionListener loggerDriverOptionListener = new SelectUtilsDriverOptionListener(loggerDriver,driverFeature.getDriverManager());
+		SelectUtilsDriverOptionListener usageMonitorDriverOptionListener = new SelectUtilsDriverOptionListener(usageMonitoringDriver,driverFeature.getDriverManager());
 
 		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
-		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver",  (ActionEvent e) ->{
-			CompositeDriver compositeDriver = (CompositeDriver)driverFeature.getDriverManager().getCurrentDriver();
-			if(((JCheckBoxMenuItem)e.getSource()).getState())
-				compositeDriver.add(loggerDriver);
-			else
-				compositeDriver.remove(loggerDriver);
-		}, false);
+		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver", loggerDriverOptionListener , false);
 
-		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor", (ActionEvent e) -> {
-			CompositeDriver compositeDriver = (CompositeDriver)driverFeature.getDriverManager().getCurrentDriver();
-			if(((JCheckBoxMenuItem)e.getSource()).getState()){
-				compositeDriver.add(usageMonitoringDriver);
-			}
-			else{
-				compositeDriver.remove(usageMonitoringDriver);
-			}
-		}, false );
+		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor",usageMonitorDriverOptionListener, false );
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
 		mouseClickAdapter.enable();
@@ -121,11 +111,7 @@ public class TestJobs2dApp {
 		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 		application.addTest("Monitoring device Test", new SelectMonitoringDeviceTestFigureOptionListener(driverFeature.getDriverManager()));
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
-		/*
-		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver( lineDriverAdapter);
-		driverFeature.addDriver("Usage monitoring Simulator", usageMonitoringDriver);
-		 */
+
 	}
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
