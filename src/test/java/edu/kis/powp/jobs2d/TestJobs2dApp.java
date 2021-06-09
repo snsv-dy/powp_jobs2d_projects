@@ -99,7 +99,6 @@ public class TestJobs2dApp {
 
 		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver", loggerDriverOptionListener , false);
-
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor",usageMonitorDriverOptionListener, false );
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
