@@ -51,21 +51,26 @@ public class TestJobs2dApp {
 		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
 		application.addTest("Test if exceeds B3", new TestIfCommandFits(PaperFormats.B3_v));
 	}
+
 	/**
-	 * Setup utilities.
+	 * Setup test using driver commands in context.
 	 *
 	 * @param application Application context.
 	 */
-	private static void setupUtilities(Application application) {
+	private static void setupCommandTests(Application application) {
 		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
-		application.addComponentMenu(MacroRecorder.class, "Utils", 0);
-		// MACRO FUNCTIONS/COMMANDS
-		application.addComponentMenuElementWithCheckBox(MacroRecorder.class, "Macro record", new MacroToggleListener(driverFeature.getDriverManager()), false);
-		application.addComponentMenuElement(MacroRecorder.class, "Clear recorded", new MacroClearListener());
-		application.addComponentMenuElement(MacroRecorder.class, "Load recorded", new MacroLoadListener());
-		application.addComponentMenuElement(MacroRecorder.class, "Load secret command", new SelectLoadSecretCommandOptionListener());
-		application.addComponentMenuElement(MacroRecorder.class, "▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
+
+		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
+
+		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
+
+		application.addTest("Start recording", new MacroStartListener(driverFeature.getDriverManager()));
+
+		application.addTest("Stop recording", new MacroStopListener(driverFeature.getDriverManager()));
+
+		application.addTest("Load recorded", new MacroLoadListener());
 	}
+
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
 	 * 
@@ -151,9 +156,9 @@ public class TestJobs2dApp {
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
 
-				setupUtilities(app);
 				setupMonitoringDeviceTests(app);
 				setupDrivers(app);
+				setupCommandTests(app);
 				setupPresetTests(app);
 				setupLogger(app);
 				setupWindows(app);

@@ -32,10 +32,8 @@ public class TestIfCommandFits implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		CommandsFeature commands = FeatureManager.getFeature(CommandsFeature.class);
-		CompoundCommand complex = (CompoundCommand)commands.getDriverCommandManager().getCurrentCommand();
-
 		ExceededCanvasVisitor visitor = new ExceededCanvasVisitor(PaperFormats.getA4());
-		visitor.visit(complex);
+        commands.getDriverCommandManager().getCurrentCommand().accept(visitor);
 
 		if(visitor.getResult()){
 			logger.log(new LogRecord(Level.WARNING, "Loaded command exceeds current format."));
