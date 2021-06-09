@@ -3,7 +3,9 @@ package edu.kis.powp.jobs2d.drivers.adapter;
 
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 import javax.swing.*;
