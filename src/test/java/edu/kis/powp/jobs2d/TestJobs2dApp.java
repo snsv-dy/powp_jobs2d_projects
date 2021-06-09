@@ -2,14 +2,13 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.ComplexCommandFactory;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
@@ -20,7 +19,8 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.observer.DriverNameUpdateObserver;
+import edu.kis.powp.jobs2d.transformations.*;
+import edu.kis.powp.jobs2d.transformations.TransformationDriver;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -87,6 +87,36 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		driverFeature.addDriver("Special line Simulator", driver);
 
+		TransformationDriver scaleTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 0.5d));
+		driverFeature.addDriver("Scale 0,5", scaleTransformationDriver);
+
+		TransformationDriver scaleTransformationDriver2 = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver2.addNewTransformation(new Scale(2d, 2d));
+		driverFeature.addDriver("Scale 2.0", scaleTransformationDriver2);
+
+		TransformationDriver rotateTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		rotateTransformationDriver.addNewTransformation(new Rotate());
+		driverFeature.addDriver("Rotate random", rotateTransformationDriver);
+
+		TransformationDriver flipHorizontalTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		flipHorizontalTransformationDriver.addNewTransformation(new HorizontalFlip());
+		driverFeature.addDriver("Flip Horizontal", rotateTransformationDriver);
+
+
+		TransformationDriver flipVerticalTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		flipVerticalTransformationDriver.addNewTransformation(new VerticalFlip());
+		driverFeature.addDriver("Flip Vertical", rotateTransformationDriver);
 
 		CompositeDriver compositeDriver = new CompositeDriver();
 		compositeDriver.add(loggerDriver);
