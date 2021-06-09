@@ -106,12 +106,10 @@ public class TestJobs2dApp {
 		mouseClickAdapter.enable();
 	}
 	private static void setupMonitoringDeviceTests(Application application) {
-
 		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 		application.addTest("Monitoring device Test", new SelectMonitoringDeviceTestFigureOptionListener(driverFeature.getDriverManager()));
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
-
 	}
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
