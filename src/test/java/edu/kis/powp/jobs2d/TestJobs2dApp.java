@@ -14,6 +14,7 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.window.command.*;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
+import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
@@ -49,11 +50,13 @@ public class TestJobs2dApp {
 		application.addTest("Rectangle", rectangleListener);
 		application.addTest("Triangle", triangleListener);
 
+		application.addTest("Test if exceeds A4", new TestIfCommandFits(PaperFormats.A4_v));
+		application.addTest("Test if exceeds B3", new TestIfCommandFits(PaperFormats.B3_v));
 	}
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
@@ -174,7 +177,6 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
-
 		application.addComponentMenu(Logger.class, "Logger", 0);
 		application.addComponentMenuElement(Logger.class, "Clear log",
 				(ActionEvent e) -> application.flushLoggerOutput());
@@ -196,10 +198,11 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
 				FeatureManager.setup(app);
+
 				setupMonitoringDeviceTests(app);
 				setupDrivers(app);
-				setupPresetTests(app);
 				setupCommandTests(app);
+				setupPresetTests(app);
 				setupLogger(app);
 				setupWindows(app);
 				setupVisitorTests(app);
