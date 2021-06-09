@@ -2,13 +2,12 @@ package edu.kis.powp.jobs2d.visitor;
 
 import edu.kis.powp.jobs2d.command.*;
 
-public class MirrorFigureCommandVisitor implements TransformCommandVisitor{
+public class MirrorFigureCommandVisitor extends FigureCommandVisitor {
 
     private final boolean mirrorHorizontal;
     private final boolean mirrorVertical;
     private int posX;
     private int posY;
-    private DriverCommand command;
 
     public MirrorFigureCommandVisitor(boolean mirrorHorizontal, boolean mirrorVertical){
         this.mirrorHorizontal = mirrorHorizontal;
@@ -40,15 +39,5 @@ public class MirrorFigureCommandVisitor implements TransformCommandVisitor{
     public void visit(OperateToCommand command) {
         setMirrored(command.getPosX(), command.getPosY());
         this.command = new OperateToCommand(posX, posY);
-    }
-
-    @Override
-    public void visit(ICompoundCommand commands) {
-        this.command = this.getCommandList(commands);
-    }
-
-    @Override
-    public DriverCommand getResult() {
-        return this.command;
     }
 }

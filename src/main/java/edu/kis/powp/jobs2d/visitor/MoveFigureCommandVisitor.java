@@ -2,13 +2,12 @@ package edu.kis.powp.jobs2d.visitor;
 
 import edu.kis.powp.jobs2d.command.*;
 
-public class MoveFigureCommandVisitor implements TransformCommandVisitor {
+public class MoveFigureCommandVisitor extends FigureCommandVisitor {
 
     private final int moveX;
     private final int moveY;
     private int posX;
     private int posY;
-    private DriverCommand command;
 
     public MoveFigureCommandVisitor(int moveX, int moveY){
         this.moveX = moveX;
@@ -30,15 +29,5 @@ public class MoveFigureCommandVisitor implements TransformCommandVisitor {
     public void visit(OperateToCommand command) {
         setMoved(command.getPosX(), command.getPosY());
         this.command = new OperateToCommand(posX, posY);
-    }
-
-    @Override
-    public void visit(ICompoundCommand commands) {
-        this.command = this.getCommandList(commands);
-    }
-
-    @Override
-    public DriverCommand getResult() {
-        return this.command;
     }
 }

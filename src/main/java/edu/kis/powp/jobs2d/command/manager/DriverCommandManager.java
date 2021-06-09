@@ -23,7 +23,7 @@ public class DriverCommandManager {
 	 *
 	 * @param visitor visitor.
 	 */
-	public synchronized void acceptVisitor(TransformCommandVisitor visitor){
+	public synchronized void acceptVisitor(FigureCommandVisitor visitor){
 		currentCommand.accept(visitor);
 		currentCommand = visitor.getResult();
 	}

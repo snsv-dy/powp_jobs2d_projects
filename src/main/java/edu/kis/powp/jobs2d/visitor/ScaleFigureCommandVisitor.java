@@ -2,12 +2,11 @@ package edu.kis.powp.jobs2d.visitor;
 
 import edu.kis.powp.jobs2d.command.*;
 
-public class ScaleFigureCommandVisitor implements TransformCommandVisitor{
+public class ScaleFigureCommandVisitor extends FigureCommandVisitor {
 
     private final double scale;
     private int posX;
     private int posY;
-    private DriverCommand command;
 
     public ScaleFigureCommandVisitor(double scale){
         this.scale = scale;
@@ -28,15 +27,5 @@ public class ScaleFigureCommandVisitor implements TransformCommandVisitor{
     public void visit(OperateToCommand command) {
         setScaled(command.getPosX(), command.getPosY());
         this.command = new OperateToCommand(posX, posY);
-    }
-
-    @Override
-    public void visit(ICompoundCommand commands) {
-        this.command = this.getCommandList(commands);
-    }
-
-    @Override
-    public DriverCommand getResult() {
-        return this.command;
     }
 }
