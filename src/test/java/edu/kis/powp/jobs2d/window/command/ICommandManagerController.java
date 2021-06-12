@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.window.command;
 
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Subscriber;
 
 import java.io.IOException;
@@ -14,4 +15,5 @@ public interface ICommandManagerController {
 	String getCurrentCommandString();
 	void deleteObservers();
 	List<Subscriber> getObservers();
+	ICompoundCommand getCurrentCommand();
 }

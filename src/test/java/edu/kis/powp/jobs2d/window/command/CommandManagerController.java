@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.jobs2d.command.CommandImporter;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
+import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -58,7 +59,14 @@ public class CommandManagerController implements ICommandManagerController {
 	}
 
 	@Override
+	public ICompoundCommand getCurrentCommand() {
+		return (ICompoundCommand) commandManager.getCurrentCommand();
+	}
+
+	@Override
 	public void runCommand() {
 		new SelectRunCurrentCommandOptionListener(driverManager).actionPerformed(null);
 	}
+
+
 }

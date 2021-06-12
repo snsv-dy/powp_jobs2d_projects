@@ -54,4 +54,5 @@ public class SetPositionCommand implements DriverCommand {
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+
 }
