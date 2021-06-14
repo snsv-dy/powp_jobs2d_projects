@@ -4,7 +4,8 @@ import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.FeatureManager;
-import edu.kis.powp.jobs2d.visitor.ScaleFigureCommandVisitor;
+import edu.kis.powp.jobs2d.transformations.Scale;
+import edu.kis.powp.jobs2d.visitor.TransformFigureCommandVisitor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ public class SelectScaleFigureListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
         DriverCommandManager manager = commandsFeature.getDriverCommandManager();
-        manager.acceptVisitor(new ScaleFigureCommandVisitor(1.5));
+        manager.acceptVisitor(new TransformFigureCommandVisitor(new Scale(1.5, 1.5)));
     }
 
 }
