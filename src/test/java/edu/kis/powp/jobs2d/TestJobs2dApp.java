@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.window.command.CommandStatsObserver;
 import edu.kis.powp.jobs2d.drivers.UsageDriver;
@@ -115,8 +114,8 @@ public class TestJobs2dApp {
 		TransformationDriver rotateTransformationDriver = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
 		);
-		rotateTransformationDriver.addNewTransformation(new Rotate());
-		driverFeature.addDriver("Rotate random", rotateTransformationDriver);
+		rotateTransformationDriver.addNewTransformation(new Rotate(45));
+		driverFeature.addDriver("Rotate 45°", rotateTransformationDriver);
 
 		TransformationDriver flipHorizontalTransformationDriver = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
