@@ -3,9 +3,7 @@ package edu.kis.powp.jobs2d;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
-import java.awt.event.ActionListener;
 
-import java.util.Random;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,8 +14,6 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.window.command.*;
-import edu.kis.powp.jobs2d.drivers.CompositeDriver;
-import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
@@ -25,8 +21,6 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.transformations.*;
 import edu.kis.powp.jobs2d.transformations.TransformationDriver;
 
-import javax.sound.sampled.Line;
-import javax.swing.JCheckBoxMenuItem;
 
 
 public class TestJobs2dApp {
