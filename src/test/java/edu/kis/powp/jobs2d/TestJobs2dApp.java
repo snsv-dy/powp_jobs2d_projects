@@ -2,8 +2,6 @@ package edu.kis.powp.jobs2d;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,13 +10,13 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
+import edu.kis.powp.jobs2d.window.command.CommandStatsObserver;
 import edu.kis.powp.jobs2d.drivers.UsageDriver;
 import edu.kis.powp.jobs2d.window.command.CommandManagerController;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindow;
 import edu.kis.powp.jobs2d.window.command.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.window.command.*;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
-import edu.kis.powp.jobs2d.drivers.MacroRecorder;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
@@ -157,17 +155,18 @@ public class TestJobs2dApp {
 	private static void setupWindows(Application application) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
-
 		ICommandManagerController commandManagerController = new CommandManagerController(driverFeature.getDriverManager(),
 				commandsFeature.getDriverCommandManager(), new JsonCommandImporter());
 		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController, commandsFeature.getDriverCommandManager());
 		application.addWindowComponent("Command Manager", commandManagerWindow);
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManagerWindow);
-
+		CommandStatsObserver commandStatsObserver = new CommandStatsObserver(commandsFeature.getDriverCommandManager(), commandManagerWindow);
+		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(commandStatsObserver);
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 		HistoryCommandListChangeObserver historyObserver = new HistoryCommandListChangeObserver(
 				commandManagerWindow);
+
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(historyObserver);
 	}
 
