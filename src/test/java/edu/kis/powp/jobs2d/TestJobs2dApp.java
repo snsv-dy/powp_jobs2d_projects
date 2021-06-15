@@ -13,9 +13,8 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
-import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
+import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.window.command.*;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import edu.kis.powp.jobs2d.drivers.MacroRecorder;
@@ -23,10 +22,6 @@ import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.UsageMonitoringDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.MouseClickAdapter;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.features.FeatureManager;
 import edu.kis.powp.jobs2d.transformations.*;
 import edu.kis.powp.jobs2d.transformations.TransformationDriver;
 
@@ -97,7 +92,7 @@ public class TestJobs2dApp {
 	private static void setupDrivers(Application application) {
 		DriverFeature driverFeature = FeatureManager.getFeature(DriverFeature.class);
 		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
-
+		DriverUtilsFeature driverUtilsFeature = FeatureManager.getFeature(DriverUtilsFeature.class);
 		
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
@@ -140,12 +135,8 @@ public class TestJobs2dApp {
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver();
-		SelectUtilsDriverOptionListener loggerDriverOptionListener = new SelectUtilsDriverOptionListener(loggerDriver,driverFeature.getDriverManager());
-		SelectUtilsDriverOptionListener usageMonitorDriverOptionListener = new SelectUtilsDriverOptionListener(usageMonitoringDriver,driverFeature.getDriverManager());
-
-		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
-		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver", loggerDriverOptionListener , false);
-		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "UsageMonitor",usageMonitorDriverOptionListener, false );
+		driverUtilsFeature.addUtilsCheckBox("LoggerDriver", loggerDriver, driverFeature.getDriverManager());
+		driverUtilsFeature.addUtilsCheckBox("UsageMonitor", usageMonitoringDriver, driverFeature.getDriverManager());
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
 		mouseClickAdapter.enable();
@@ -198,7 +189,7 @@ public class TestJobs2dApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Application app = new Application("Jobs 2D");
-				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature());
+				FeatureManager.addFeatures(new DrawerFeature(), new CommandsFeature(), new DriverFeature(), new DriverUtilsFeature());
 				FeatureManager.setup(app);
 
 				setupMonitoringDeviceTests(app);
