@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CompositeDriverTest {
+
 	private Job2dDriver sampleDriver = new SampleDriver();
 	private Job2dDriver testDriver = new TestDriver();
 	private CompositeDriver compositeDriver = new CompositeDriver();
