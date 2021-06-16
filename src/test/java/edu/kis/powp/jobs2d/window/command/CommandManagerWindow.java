@@ -25,6 +25,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private String observerListString;
 	private JTextArea observerListField;
 	private String selectedFilePath;
+	private JTextArea commandStatsField;
 
 	private ICommandManagerController controller;
 
@@ -61,6 +62,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
+
+		commandStatsField = new JTextArea("");
+		commandStatsField.setEditable(false);
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weighty = 1;
+		c.weightx = 1;
+		content.add(commandStatsField, c);
 
 		JButton btnRunCommand = new JButton("Run command");
 		c.gridwidth = 1;
@@ -177,6 +187,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setText(controller.getCurrentCommandString());
 	}
 
+	public void updateCommandStatsField(String data){
+		commandStatsField.setText(data);
+	}
+
 	public void deleteObservers() {
 		controller.deleteObservers();
 		updateObserverListField();
@@ -191,7 +205,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		observerListString = "";
 		List<Subscriber> commandChangeSubscribers = controller.getObservers();
 		for (Subscriber observer : commandChangeSubscribers) {
-			observerListString += observer.toString() + System.lineSeparator();
+				observerListString += observer.toString() + System.lineSeparator();
 		}
 		if (commandChangeSubscribers.isEmpty())
 			observerListString = "No observers loaded";

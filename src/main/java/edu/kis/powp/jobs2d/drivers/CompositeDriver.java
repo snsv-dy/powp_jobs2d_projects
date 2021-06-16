@@ -35,6 +35,21 @@ public class CompositeDriver implements Job2dDriver {
         drivers.remove(children);
     }
 
+    public boolean toggleDriver(Job2dDriver driver){
+        if(drivers.contains(driver)){
+            drivers.remove(driver);
+            return false;
+        }
+        else{
+            drivers.add(driver);
+            return true;
+        }
+    }
+
+
+    public int getSize(){
+        return drivers.size();
+    }
     @Override
     public String toString(){
         return "Composite driver";
