@@ -152,7 +152,7 @@ public class TestJobs2dApp {
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
 
 		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver( lineDriverAdapter);
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver();
 		driverFeature.addDriver("Usage monitoring Simulator", usageMonitoringDriver);
 	}
 	private static void setupWindows(Application application) {
