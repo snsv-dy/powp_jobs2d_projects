@@ -17,9 +17,10 @@ public class SelectDriverMenuOptionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MacroDecoratorDriver mDriver = new MacroDecoratorDriver();
-		mDriver.setDriver(driver);
-		driverManager.setCurrentDriver(mDriver);
-		
+    // Macro should be disabled otherwise CompositeDriver won't works
+		// MacroDecoratorDriver mDriver = new MacroDecoratorDriver();
+		// mDriver.setDriver(driver);
+    
+		driverManager.setCurrentDriver(driver);
 	}
 }

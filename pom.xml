@@ -5,7 +5,7 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<name>Visual2Djobs</name>
 	<description>POWP software for devices operating on 2d plane</description>
-  
+
 	<build>
 		<plugins>
 			<plugin>
@@ -21,7 +21,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -35,26 +35,26 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-	        <groupId>edu.kis.powp.jobs2d</groupId>
-	        <artifactId>jobs2dmagic</artifactId>
-	        <version>1.0.0</version>
-	        <scope>system</scope>
-	        <systemPath>${project.basedir}/lib/Jobs2dMagic.jar</systemPath>
-	    </dependency>
-	    <dependency>
-	        <groupId>edu.kis.legacy</groupId>
-	        <artifactId>drawer</artifactId>
-	        <version>1.0.0</version>
-	        <scope>system</scope>
-	        <systemPath>${project.basedir}/lib/Drawer.jar</systemPath>
-	    </dependency>
+			<groupId>edu.kis.powp.jobs2d</groupId>
+			<artifactId>jobs2dmagic</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Jobs2dMagic.jar</systemPath>
+		</dependency>
 		<dependency>
-	        <groupId>edu.kis.powp</groupId>
-	        <artifactId>appbase</artifactId>
-	        <version>1.0.0</version>
-	        <scope>system</scope>
-	        <systemPath>${project.basedir}/lib/PowpAppBase.jar</systemPath>
-	    </dependency>
+			<groupId>edu.kis.legacy</groupId>
+			<artifactId>drawer</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Drawer.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>edu.kis.powp</groupId>
+			<artifactId>appbase</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/PowpAppBase.jar</systemPath>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -69,5 +69,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 </project>

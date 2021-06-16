@@ -35,6 +35,16 @@ public class CompositeDriver implements Job2dDriver {
         drivers.remove(children);
     }
 
+
+    public void checkBoxHandler(Job2dDriver driver){
+        if(drivers.contains(driver)){
+            drivers.remove(driver);
+        }
+        else{
+            drivers.add(driver);
+        }
+    }
+
     public boolean toggleDriver(Job2dDriver driver){
         if(drivers.contains(driver)){
             drivers.remove(driver);
@@ -45,7 +55,6 @@ public class CompositeDriver implements Job2dDriver {
             return true;
         }
     }
-
 
     public int getSize(){
         return drivers.size();
